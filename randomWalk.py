@@ -1,15 +1,14 @@
 import sys
 import random
 
-n = int(sys.argv[1])
 
 
 
+POINTS = ((0,1),(0,-1),(1,0),(-1,0))
 
 def randomStep(coord):
     r = random.randrange(0,4)
-    points = ((0,1),(0,-1),(1,0),(-1,0))
-    step = points[r]
+    step = POINTS[r]
     return (coord[0]+step[0],coord[1]+step[1])
 
 
@@ -21,9 +20,11 @@ def countSteps(n):
         steps+=1
     return steps
 
-print(countSteps(n))
+if __name__ == "__main__":
+    n = int(sys.argv[1])
+    print(countSteps(n))
 
 
-    
+        
 
-    
+        
