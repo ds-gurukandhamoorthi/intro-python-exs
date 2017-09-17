@@ -1,12 +1,12 @@
 
-def printMatrix(matr):
+def printMatrix(matr, trueSymbol='*', falseSymbol=' '):
     for i in range(len(matr)):
         print(i+1,end='')
     print('')
     i=0
     for row in matr:
         for v in row:
-            toprint = '*' if v else ' '
+            toprint = trueSymbol if v else falseSymbol
             print(toprint, end='')
         print(i+1)
         i+=1
