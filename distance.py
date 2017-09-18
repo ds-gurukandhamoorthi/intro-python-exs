@@ -3,11 +3,14 @@ from functools import reduce
 from operator import sub
 
 def euclideanDist(va, vb):
+    return math.sqrt(squared_distance(va,vb))
+
+def squared_distance(va, vb):
     n = max(len(va),len(vb))
     total = 0
     for i in range(n):
         total += (va[i]-vb[i])**2
-    return math.sqrt(total)
+    return total
 
 def chebyschevDist(va, vb):
     n = max(len(va),len(vb))
