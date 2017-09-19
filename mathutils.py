@@ -3,6 +3,9 @@ import math
 def avg(array):
     return sum(array)/len(array)
 
+def avg_magnitude(array):
+    return avg(list(map(abs,array)))
+
 def variance(array):
     m = avg(array)
     totalSquared = 0
@@ -26,6 +29,9 @@ def harm_mean(array):
     for val in array:
         total += 1/val
     return n/total
+
+def cartesian_coord(r, theta):
+    return (r*(math.cos(theta)), r*(math.sin(theta)))
 
 
 
