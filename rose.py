@@ -5,6 +5,7 @@ import stddraw
 import random
 from mathutils import cartesian_coord
 import numpy as np
+from drawing_utils import draw_graph
 
 
 n = int(sys.argv[1])
@@ -21,13 +22,7 @@ points = [ cartesian_coord(radius, theta) for radius, theta in zip(radius_list, 
 
 print(points)
 
-stddraw.setPenColor(stddraw.RED)
-prev = None
-for point in points:
-    if prev is not None: 
-        stddraw.line(*prev, *point)
-    prev = point
-
+draw_graph(points, stddraw.RED)
 
 
 

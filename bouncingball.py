@@ -13,14 +13,25 @@ ry = .860
 vx = .015
 vy = .023
 
+rx_ = None
+ry_ = None
+
+stddraw.clear(stddraw.GRAY)
 while True:
     if abs(rx + vx) + RADIUS > 1.0:
         vx = -vx
     if abs(ry + vy) + RADIUS > 1.0:
-        vy = -vy
+        vy = -vy 
     rx = rx + vx
-    ry = ry + vy
+    ry = ry + vy*0.8
 
-    stddraw.clear(stddraw.GRAY)
+    # stddraw.clear(stddraw.GRAY)
+    if rx_ is not None and ry_ is not None:
+        stddraw.setPenColor(stddraw.GRAY)
+        stddraw.filledCircle(rx_,ry_, RADIUS)
+        stddraw.setPenColor(stddraw.BLACK)
+        stddraw.circle(rx_, ry_, RADIUS)
     stddraw.filledCircle(rx, ry, RADIUS)
+    rx_ = rx
+    ry_ = ry
     stddraw.show(0)

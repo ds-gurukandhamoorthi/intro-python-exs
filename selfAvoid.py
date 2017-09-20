@@ -1,11 +1,8 @@
-import randomWalk
 import sys
 import random
+from geomutils import POINTS,POINTS3D, addCoords, addCoords3D, neighbours, neighbours3D
+from randomutils import oneOf
 
-POINTS = randomWalk.POINTS
-def oneOf(array):
-    "Chooses a single random element from an array"
-    return random.sample(array,1)[0]
 
 def printMatrix(matr):
     for row in matr:
@@ -13,20 +10,6 @@ def printMatrix(matr):
             toprint = 1 if v else 0
             print(toprint,end='')
         print('')
-
-def neighbours(coord, points=POINTS):
-    res = []
-    for point in points:
-        neigh = addCoords(point,coord)
-        res += [neigh]
-    return res
-
-def neighbours3D(coord, points):
-    res = []
-    for point in points:
-        neigh = addCoords3D(point,coord)
-        res += [neigh]
-    return res
 
 def selfAvoidHappened(n):
     "Tells us if self avoidance happened during the trial for n*n matrix"
@@ -66,11 +49,6 @@ def selfAvoidHappened(n):
             setVisited(coord)
 
 
-def addCoords(coord1,coord2):
-    return (coord1[0]+coord2[0], coord1[1]+coord2[1])
-
-def addCoords3D(coord1,coord2):
-    return (coord1[0]+coord2[0], coord1[1]+coord2[1], coord1[2],coord2[2])
 
 def boundingRectangle(box, coord):
     "Given ((xmin, ymin),(xmax,ymax)) and (x,y) returns the new bounding box"
@@ -104,7 +82,6 @@ def limitlessSelfAvoid():
             return steps
         coord = oneOf(neighs)
 
-POINTS3D = ((0,0,-1), (0,0,1),(0,1,0),(0,-1,0),(1,0,0),(-1,0,0))
 def limitlessSelfAvoid3D():
     def isVisited(coord):
         return visited.get(coord,False)

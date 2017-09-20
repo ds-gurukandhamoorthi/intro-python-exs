@@ -1,10 +1,8 @@
 import sys
 import random
+from geomutils import POINTS
 
 
-
-
-POINTS = ((0,1),(0,-1),(1,0),(-1,0))
 
 def randomStep(coord):
     r = random.randrange(0,4)
