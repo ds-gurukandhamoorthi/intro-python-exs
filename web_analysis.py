@@ -1,6 +1,7 @@
 from ioutils import read_strings
 from wordcount import words
 import shelve
+TRANS_MATR_KEY='trans_matr_key'
 
 
 LOOP_PROBAB = 0.1
@@ -59,7 +60,17 @@ if __name__ == "__main__":
     # print(loop_equi_probab(5,LOOP_PROBAB))
     # print(link_probab(lnk_cnts,TRANS_PROB))
     trns_matr = transition_matrix(n, links, LOOP_PROBAB)
+
     print(trns_matr)
     d = shelve.open('transmatrfile')
-    d['matr'] = trns_matr
+    d[TRANS_MATR_KEY] = trns_matr
     d.close()
+
+    dotfile = open('links.dot','w')
+    print('digraph Links{', file=dotfile)
+    for link in links:
+        from_page, to_page = link
+        print(from_page, ' -> ', to_page, ';' ,file = dotfile)
+
+    print('}', file=dotfile)
+    dotfile.close()

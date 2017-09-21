@@ -1,4 +1,4 @@
-
+import argparse
 import sys
 import math
 sys.path.append('../')
@@ -9,10 +9,14 @@ import numpy as np
 from math import cos, sin
 from drawing_utils import draw_graph
 
-
-R = float(sys.argv[1])
-r = float(sys.argv[2])
-a = float(sys.argv[3])
+parser = argparse.ArgumentParser(description='Draws spirographs')
+parser.add_argument('R', type=float, help='radius of the large circle')
+parser.add_argument('r', type=float, help='radius of the small circle ')
+parser.add_argument('a', type=float, help='offset from the center of the rolling circle')
+args = parser.parse_args()
+R = args.R
+r = args.r
+a = args.a
 
 stddraw.setXscale(-2*(R+r),2*(R+r))
 stddraw.setYscale(-2*(R+r),2*(R+r))

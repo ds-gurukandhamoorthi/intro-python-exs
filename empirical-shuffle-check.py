@@ -1,10 +1,15 @@
+import argparse
 import sys
 from arrayUtils import shuffle, badShuffle
 from riffle_shuffle import riffle_shuffle
 import math
 
-n = int(sys.argv[1])
-nbTrials = int(sys.argv[2])
+parser = argparse.ArgumentParser(description='Shuffle check empirical study')
+parser.add_argument('n', type=int, help='number of elements to shuffle')
+parser.add_argument('nbTrials', type=int, help='number of experiements')
+args = parser.parse_args()
+n = args.n
+nbTrials = args.nbTrials
 
 def trials(n, nbTrials,shufflingFunc):
     stat = [[0]*n for i in range(n)]

@@ -1,4 +1,4 @@
-
+import argparse
 
 import sys
 import math
@@ -10,13 +10,20 @@ import numpy as np
 from math import cos, sin, radians
 from drawing_utils import draw_graph
 
-
-amp_x = float(sys.argv[1])
-amp_y = float(sys.argv[2])
-veloc_x = float(sys.argv[3])
-veloc_y = float(sys.argv[4])
-theta_x = float(sys.argv[5])
-theta_y = float(sys.argv[6])
+parser = argparse.ArgumentParser(description='draw oscillocope using Lissajous patterns\n example : 1 1 2 3 20 45  or 1 1 5 3 30 45')
+parser.add_argument('amp_x', type=float, help='amplitude x axis')
+parser.add_argument('amp_y', type=float, help='amplitude y axis')
+parser.add_argument('veloc_x', type=float, help='velocity x axis')
+parser.add_argument('veloc_y', type=float, help='velocity y ayis')
+parser.add_argument('theta_x', type=float, help='angle in degrees x axis')
+parser.add_argument('theta_y', type=float, help='angle in degrees y ayis')
+args = parser.parse_args()
+amp_x =args.amp_x
+amp_y = args.amp_y
+veloc_x =  args.veloc_x
+veloc_y = args.veloc_y
+theta_x = args.theta_x
+theta_y = args.theta_y
 
 stddraw.setXscale(-2*(amp_y+amp_x),2*(amp_y+amp_x))
 stddraw.setYscale(-2*(amp_y+amp_x),2*(amp_y+amp_x))
