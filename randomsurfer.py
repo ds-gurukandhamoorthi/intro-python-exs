@@ -1,6 +1,7 @@
 import argparse
 import math
 import sys
+import matplotlib.pyplot as plt
 sys.path.append('../')
 import stddraw
 from matrixutils import matrMult
@@ -88,6 +89,8 @@ if __name__ == "__main__":
     print(rank_and_page)
     print('***')
     print(sorted(rank_and_page, reverse=True))
+    plt.bar(range(len(res[0])),res[0])
+    plt.show()
 
     
     # res = trns_matr
@@ -103,10 +106,12 @@ if __name__ == "__main__":
     if args.histogram:
         stddraw.setXscale(0,len(count_visits))
         stddraw.setYscale(0,1)
-        for j, val in enumerate(count_visits):
-            stddraw.setPenColor(stddraw.RED)
-            stddraw.filledRectangle(j,0,1,val)
-        stddraw.show()
+        # for j, val in enumerate(count_visits):
+        #     stddraw.setPenColor(stddraw.RED)
+        #     stddraw.filledRectangle(j,0,1,val)
+        # stddraw.show()
+        plt.bar(range(len(count_visits)),count_visits)
+        plt.show()
     if args.analyse_hitting_time:
         NB_TRIALS = args.analyse_hitting_time
         #Hitting time
@@ -114,6 +119,9 @@ if __name__ == "__main__":
         for i, probs in enumerate(trns_matr):
             stat_hitting_time[i] = avg_hitting_time(probs, i, NB_TRIALS)
         print(stat_hitting_time)
+        plt.plot(stat_hitting_time)
+        plt.show()
+
     if args.analyse_coverage_time:
         NB_TRIALS = args.analyse_coverage_time
         #Coverage time
