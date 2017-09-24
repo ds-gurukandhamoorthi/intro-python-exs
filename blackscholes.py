@@ -1,6 +1,16 @@
 import argparse
-from gauss import Phi
+from gauss import Phi, inverse
 from math import log, sqrt,exp
+from functools import partial
+
+def option_price(s, x, r, t, sigma):
+    "Identical to black_scholes except for the argument order"
+    return black_scholes(s, x, r, sigma, t)
+
+#FIXME : NOT TESTED
+def implied_volatility(s, x, r, t, opt_pr):
+    f = partial(option_price, s, x, r, t)
+    return inverse(f, opt_pr, r, 50)
 
 def black_scholes(s, x, r, sigma, t):
     a = (log(s/x) + (r + 0.5*sigma**2) *t) / (sigma * sqrt(t))
@@ -20,5 +30,9 @@ if __name__ == "__main__":
     r = args.r
     sigma = args.sigma
     t = args.t
-    print(black_scholes(s, x, r, sigma, t))
-    
+    opt_pr = black_scholes(s, x, r, sigma, t)
+    print(opt_pr)
+
+    print('volatility entered', sigma)
+    print('implied_volatility', implied_volatility(s, x, r, t, opt_pr))
+        

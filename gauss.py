@@ -3,7 +3,7 @@ import math
 from taylor_series import taylor_series, step_phi
 import scipy.stats 
 
-TOLERANCE = 10**-10
+TOLERANCE = 10**-5
 def binary_search_interval(lo, hi, cmp_func, func, y):
     midpoint = (lo + hi) / 2
     res_comp = cmp_func(func, midpoint, TOLERANCE, y)
@@ -38,7 +38,7 @@ def Phi(x):
 def cdf(x, mu=0.0, sigma=1.0):
     return Phi((x-mu)/sigma)
 
-def inverse(func, y,  lo, hi, cmp_func):
+def inverse(func, y,  lo, hi, cmp_func=cmp_func):
     return binary_search_interval(lo, hi, cmp_func, func, y)
 
 def Phi_inverse(y):
