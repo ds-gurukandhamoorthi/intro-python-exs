@@ -15,6 +15,13 @@ def taylor_series(x, init, step):
         total += curr
         n+=1
 
+def taylor_series_coeffs(init, n, step):
+    res = [init]
+    for i in range(1,n):
+        res += [step(res[i-1],1,i)] # we choose 1 as we merely want the coefficients
+    return res
+
+
 def stepExp(prev,x, n):
     return  prev *x /n
 
@@ -37,4 +44,5 @@ if __name__ == "__main__":
     print( taylor_series(x, 1, stepCosinus) )
     print( taylor_series(x, 1, stepExp) )
     print( taylor_series(x, x, step_phi) )
+    print( taylor_series_coeffs( 1, 5, stepExp))
 
