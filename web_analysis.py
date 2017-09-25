@@ -3,12 +3,10 @@ from ioutils import read_strings
 from wordcount import words
 import shelve
 TRANS_MATR_KEY='trans_matr_key'
+from arrayUtils import group2
 
 
 
-#tuple(from, to)
-def group2(lst):
-    return zip(lst[0::2], lst[1::2])
 
 def as_tuples(strs):
     res = []
