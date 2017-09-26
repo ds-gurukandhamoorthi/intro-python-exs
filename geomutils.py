@@ -1,25 +1,32 @@
 POINTS = ((0,1),(0,-1),(1,0),(-1,0))
 POINTS3D = ((0,0,-1), (0,0,1),(0,1,0),(0,-1,0),(1,0,0),(-1,0,0))
 
-def addCoords(coord1,coord2):
-    return (coord1[0]+coord2[0], coord1[1]+coord2[1])
 
-def addCoords3D(coord1,coord2):
-    return (coord1[0]+coord2[0], coord1[1]+coord2[1], coord1[2],coord2[2])
+def add_coords(coord1, coord2):
+    return tuple([x+y for x, y in zip(coord1,coord2)])
 
 def neighbours(coord, points=POINTS):
     res = []
     for point in points:
-        neigh = addCoords(point,coord)
+        neigh = add_coords(point,coord)
         res += [neigh]
     return res
 
-def neighbours3D(coord, points):
-    res = []
-    for point in points:
-        neigh = addCoords3D(point,coord)
-        res += [neigh]
-    return res
+def mid_point(p1, p2):
+    return tuple([(x + y)/2 for x,y in zip(p1,p2)])
+
+def gen_polygon_coordinates(n=3):
+    angles = (i*(2*pi / n) for i in range(0,n))
+    return [(cos(a), sin(a)) for a in angles]
+
+if __name__ == "__main__":
+    point1 = (1,2)
+    point2 = (3,4)
+    print( add_coords(point1,point2))
+    point1 = (1,2,3)
+    point2 = (4,5,6)
+    print( add_coords(point1,point2))
+    print(neighbours(point1,POINTS3D))
 
 
 

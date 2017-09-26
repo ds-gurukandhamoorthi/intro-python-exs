@@ -27,13 +27,14 @@ def gaussian_box_muller():
     z = math.sin(2*math.pi*v)*(-2*math.log(u))**0.5
     return z
 
-def gaussian():
+def gaussian(mu=0, sigma=1):
     r = 0.0
     while (r >= 1) or (r == 0.0):
         x = random.uniform(-1.0,1.0)
         y = random.uniform(-1.0,1.0)
         r = x*x + y*y
-    return x * math.sqrt(-2.0 * math.log(r) /r)
+    g = x * math.sqrt(-2.0 * math.log(r) /r)
+    return mu + g*sigma
 
 
 if __name__ == "__main__":

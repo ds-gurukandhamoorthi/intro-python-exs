@@ -1,5 +1,5 @@
 import sys
-from arrayUtils import shuffle
+from array_utils import shuffle
 
 n = int(sys.argv[1])
 nbTrial = int(sys.argv[2])

@@ -5,6 +5,9 @@ from numpy.random import choice
 import bisect
 from numpy.random import binomial
 
+
+
+
 def nb_head(nb_max):
     "To get binomial distribution"
     total = 0

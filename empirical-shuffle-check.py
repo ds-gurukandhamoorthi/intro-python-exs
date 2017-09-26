@@ -1,6 +1,6 @@
 import argparse
 import sys
-from arrayUtils import shuffle, badShuffle
+from array_utils import shuffle, badShuffle
 from riffle_shuffle import riffle_shuffle
 import math
 

@@ -1,6 +1,6 @@
 import sys
 import random
-from geomutils import POINTS,POINTS3D, addCoords, addCoords3D, neighbours, neighbours3D
+from geomutils import POINTS,POINTS3D, add_coords,  neighbours
 from randomutils import oneOf
 
 
@@ -98,14 +98,14 @@ def limitlessSelfAvoid3D():
         # print(coord, steps, visited)
         steps += 1
         visited[coord] = True
-        neighs = filterNeighboursVisitable(neighbours3D(coord, POINTS3D))
+        neighs = filterNeighboursVisitable(neighbours(coord, POINTS3D))
         if len(neighs) == 0:
             return steps
         coord = oneOf(neighs)
 
 
 if __name__ == "__main__":
-   assert(addCoords((2,3),(7,11))==(9,14))
+   assert(add_coords((2,3),(7,11))==(9,14))
    # print(POINTS)
 
    n = int(sys.argv[1])

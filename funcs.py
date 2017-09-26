@@ -30,8 +30,18 @@ def multiply(array, num):
     return [ x * num for x in array ]
 
 def scale(array):
+    "Scale the array between 0 and 1"
     factor = max(array)-min(array)
-    return multiply(array, 1/factor)
+    return [ (x - min(array))/factor  for x in array ]
+
+def homothety(array, center=0, scale=1):
+    return [ (x - center) * scale for x in array]
+
+def linear_scale(array, xmin, xmax):
+    array_ = scale(array)
+    assert xmin < xmax
+    return [ xmin + x * abs(xmax-xmin) for x in array_]
+
 
 
 def wedge_between(array):

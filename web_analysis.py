@@ -1,9 +1,9 @@
 import argparse
 from ioutils import read_strings
-from wordcount import words
+from strutils import words
 import shelve
 TRANS_MATR_KEY='trans_matr_key'
-from arrayUtils import group2
+from array_utils import group2
 
 
 

@@ -1,12 +1,7 @@
 import sys
 import re
 from sys import stdin
-
-def words(str):
-    def remove_empty_strings(listelems):
-        return list(filter(lambda x: x != '', listelems))
-    res = re.split('\s+',str)
-    return remove_empty_strings(res)
+from strutils import words
 
 def count_words(line):
     return len(words(line))

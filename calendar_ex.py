@@ -2,7 +2,7 @@ import argparse
 import subprocess
 
 from day_of import day_of
-from arrayUtils import split_every
+from array_utils import split_every
 
 MONTH_NAMES=["","January", "February", "March", "April", "May", "June", "July", "August", "Septemeber", "October", "November", "December"]
 DAY_ABBREVS=['Mo','Tu','We','Th','Fr','Sa','Su']

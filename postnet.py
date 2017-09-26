@@ -1,7 +1,7 @@
 import argparse
 import matplotlib.pyplot as plt
 # can be modified to use matrix mult and transpose
-from arrayUtils import multiply_and_add
+from array_utils import multiply_and_add
 
 def convert_base(n, base_array):
     res = [0] * len(base_array)

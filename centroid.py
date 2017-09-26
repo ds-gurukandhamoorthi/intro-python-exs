@@ -1,5 +1,5 @@
 from ioutils import read_strings
-from wordcount import words
+from strutils import words
 
 array = read_strings()
 mtot  = 0 

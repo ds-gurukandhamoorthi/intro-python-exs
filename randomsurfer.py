@@ -7,7 +7,7 @@ import stddraw
 from matrixutils import matrMult
 
 from ioutils import read_strings
-from wordcount import words
+from strutils import words
 import shelve
 from web_analysis import TRANS_MATR_KEY
 from numpy import cumsum

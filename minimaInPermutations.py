@@ -1,5 +1,5 @@
 import sys
-from arrayUtils import shuffle
+from array_utils import shuffle
 def leftToRightMinima(array,stopAt=None):
     mini = array[0]
     nbMiniSoFar = 1

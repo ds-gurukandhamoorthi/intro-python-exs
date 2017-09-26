@@ -1,4 +1,4 @@
-from arrayUtils import shuffle
+from array_utils import shuffle
 import random
 
 SUITS = ['Clubs', 'Diamonds', 'Hearts', 'Spades']

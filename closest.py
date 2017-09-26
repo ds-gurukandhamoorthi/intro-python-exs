@@ -1,7 +1,7 @@
 import sys
 from distance import squared_distance
 from ioutils import read_strings
-from wordcount import words
+from strutils import words
 
 if __name__ == "__main__":
     x = float(sys.argv[1])

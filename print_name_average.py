@@ -1,5 +1,5 @@
 from ioutils import read_strings
-from wordcount import words
+from strutils import words
 
 if __name__ == "__main__":
     array = read_strings()
