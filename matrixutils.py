@@ -1,3 +1,5 @@
+import random
+from tuple_utils import swp
 
 def dimen(matrix):
     return (len(matrix), len(matrix[0]))
@@ -21,6 +23,7 @@ def matrMultBool(a, b):
             res[i][j]=resval
     return res
 
+
 def matrMult(a, b):
     "Multiplies two float matrix"
     l = len(a)
@@ -40,5 +43,47 @@ def matrMult(a, b):
                 resval +=  a[i][k] * b[k][j]
             res[i][j]=resval
     return res
+
+def rand(m,n):
+    return create_matrix(m, n, lambda _x,_y: random.random())
+
+def identity(n):
+    return create_matrix(n, n, lambda l,c: 1 if l==c else 0 )
+
+def dot(vec1, vec2):
+    return sum((a * b for a, b in zip(vec1, vec2)))
+
+def transpose(matr):
+    def trnsp(i,j):
+        return matr[j][i]
+    return create_matrix(*swp(dimen(matr)), trnsp)
+
+def add(matr1, matr2):
+    def value_at(i,j):
+        return matr1[i][j] + matr2[i][j]
+    return create_matrix(*dimen(matr1), value_at)
+
+def sub(matr1, matr2):
+    def value_at(i,j):
+        return matr1[i][j] - matr2[i][j]
+    return create_matrix(*dimen(matr1), value_at)
+
+def create_matrix(m, n, func):
+    res = [[0]*n for i in range(m)]
+    for i in range(m):
+        for j in range(n):
+            res[i][j] = func(i,j)
+    return res
+
+def multiplyMV(m,v):
+    return transpose(matrMult( m, transpose([v])))[0]
+
+def multiplyVM(v, m):
+    return multiplyMV(m, v)
+
+
+            
+
+
 
 

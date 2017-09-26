@@ -1,7 +1,7 @@
 import argparse
 import matplotlib.pyplot as plt
 from ioutils import readFloatMatrixOrVector
-from array_utils import multiply_and_add
+from matrixutils import dot
 from numpy.random import choice
 
 def rand_num(n, probs):
@@ -10,8 +10,8 @@ def rand_num(n, probs):
 
 def transform(point, coef_transf_x, coef_transf_y):
     point_ = point +(1,)
-    x = multiply_and_add(point_,coef_transf_x)
-    y = multiply_and_add(point_,coef_transf_y)
+    x = dot(point_,coef_transf_x)
+    y = dot(point_,coef_transf_y)
     return (x,y)
 
 

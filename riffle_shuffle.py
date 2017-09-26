@@ -4,11 +4,19 @@ import numpy
 from numpy.random import choice
 import bisect
 from numpy.random import binomial
+import random
 
 
 
 
-def nb_head(nb_max):
+def nb_head(nb_max, probab=.5):
+    "To get binomial distribution"
+    total = 0
+    for i in range(nb_max-1): #nb coin toss = nb_max  -1 
+        total += random.random()<probab
+    return total
+
+def nb_head_(nb_max):
     "To get binomial distribution"
     total = 0
     for i in range(nb_max-1): #nb coin toss = nb_max  -1 
@@ -38,9 +46,8 @@ def nb_head3(nb_max):
     weighted_probs = binomial_coefficients(nb_max)
     return choice(nums, size=1, p=weighted_probs)[0] # return one elements from nums with the weighted probability
 
-def nb_head4(nb_max):
-    COIN_FLIP_PROB = .5
-    return binomial(nb_max, COIN_FLIP_PROB)
+def nb_head4(nb_max, probab=.5):
+    return binomial(nb_max, probab)
 
 
 

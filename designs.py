@@ -4,11 +4,9 @@ sys.path.append('../')
 import stddraw
 import random
 from functools import partial
+from tuple_utils import swp
 
 
-def swp(coord):
-    "Convert (a, b) -> (b, a)"
-    return tuple(reversed(coord))
 
 def translate(trans, coord):
     "Translate (a, b) -> (x + a, y+b)"

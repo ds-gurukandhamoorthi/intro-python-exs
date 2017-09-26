@@ -1,16 +1,11 @@
+from matrixutils import transpose
+
 a = [[99,85,98],
         [34,90,23],
         [23,45,94],
         [13,84,74],
         [34,65,97]]
 
-def transpose(array):
-    l,c = len(array),len(array[0])
-    res = [[0]*l for i in range(c)]
-    for i in range(l):
-        for j in range(c):
-            res[j][i] = array[i][j]
-    return res
 
 def transposeInplace(squareArray):
     n = len(squareArray)

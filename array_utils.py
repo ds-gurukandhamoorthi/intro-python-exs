@@ -1,5 +1,6 @@
 import random
 
+
 def shuffle(array):
     n = len(array)
     for i in range(n):
@@ -14,8 +15,6 @@ def badShuffle(array):
         array[i], array[r] = array[r],array[i]
     return array
 
-def multiply_and_add(array1, array2):
-    return sum((a * b for a, b in zip(array1, array2)))
 
 #tuple(from, to)
 def group2(lst):
