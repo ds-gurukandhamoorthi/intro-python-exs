@@ -79,7 +79,7 @@ def multiplyMV(m,v):
     return transpose(matrMult( m, transpose([v])))[0]
 
 def multiplyVM(v, m):
-    return multiplyMV(m, v)
+    return matrMult([v], m)[0]
 
 
             

@@ -1,6 +1,6 @@
 import argparse
 import sys
-from array_utils import shuffle, badShuffle
+from array_utils import shuffle, bad_shuffle
 from riffle_shuffle import riffle_shuffle
 import math
 
@@ -38,12 +38,12 @@ def applyShuffle(funcShuffle, n):
             
 
 if __name__ == "__main__":
-    # res=trials(n,nbTrials,badShuffle)
+    # res=trials(n,nbTrials,bad_shuffle)
     # print(res)
     expected = [[nbTrials//n]*n for i in range(n)]
     # print(expected)
     resShuffle=trials(n,nbTrials,shuffle)
-    resBadShuf =trials(n,nbTrials,badShuffle)
+    resBadShuf =trials(n,nbTrials,bad_shuffle)
     resRiffle=trials(n,nbTrials,riffle_shuffle)
     resRiffleTwo=trials(n,nbTrials,applyShuffle(riffle_shuffle,2))
     resRiffle_3=trials(n,nbTrials,applyShuffle(riffle_shuffle,3))

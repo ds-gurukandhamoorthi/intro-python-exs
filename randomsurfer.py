@@ -4,7 +4,8 @@ import sys
 import matplotlib.pyplot as plt
 sys.path.append('../')
 import stddraw
-from matrixutils import matrMult
+from matrixutils import multiplyVM
+import numpy
 
 from ioutils import read_strings
 from strutils import words
@@ -77,20 +78,28 @@ if __name__ == "__main__":
 
     ranks_vector=[0]*len(trns_matr[0])
     ranks_vector[0]=1
-    ranks_vector=[ranks_vector]
-    res = matrMult(ranks_vector, trns_matr)
+    # ranks_vector=[ranks_vector]
+    # res = matrMult(ranks_vector, trns_matr)
+    res = multiplyVM(ranks_vector, trns_matr)
     print("res", res)
     for i in range(20):
-        res = matrMult(res, trns_matr)
+        res = multiplyVM(res, trns_matr)
         print("res", res)
 
     print('***')
-    rank_and_page = [(val,i) for i, val in enumerate(res[0])]
+    rank_and_page = [(val,i) for i, val in enumerate(res)]
     print(rank_and_page)
     print('***')
     print(sorted(rank_and_page, reverse=True))
-    plt.bar(range(len(res[0])),res[0])
+    plt.bar(range(len(res)),res)
     plt.show()
+
+    print('eigen')
+    print(numpy.linalg.eig(trns_matr)[0])
+    print(numpy.linalg.eig(trns_matr)[1])
+    print(numpy.linalg.matrix_power(trns_matr,20))
+
+    
 
     
     # res = trns_matr

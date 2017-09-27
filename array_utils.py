@@ -8,7 +8,7 @@ def shuffle(array):
         array[i], array[r] = array[r],array[i]
     return array
 
-def badShuffle(array):
+def bad_shuffle(array):
     n = len(array)
     for i in range(n):
         r = random.randrange(0,n)
