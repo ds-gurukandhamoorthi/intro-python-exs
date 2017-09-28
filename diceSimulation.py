@@ -1,8 +1,12 @@
 import random
 import distance
 import sys
-def die():
-    return random.randrange(1,7)
+from numpy.random import choice
+
+def die(prob_dist=None):
+    if prob_dist is None:
+        return random.randrange(1,7)
+    return choice(range(1,7), size=1, p=prob_dist)[0]
 
 def simulateSumDices(nbTrials):
     freqSum = [0]*13
