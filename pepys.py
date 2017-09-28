@@ -1,11 +1,8 @@
 import random
 import sys
+from diceSimulation import die
 
 nbTrials = int(sys.argv[1])
-
-
-def die():
-    return random.randrange(1,7)
 
 def obtain(attainCount, nbDiceRolls):
     count = 0

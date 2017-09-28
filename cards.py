@@ -12,7 +12,7 @@ def getDeck():
             deck += [card]
     return deck
 
-def getHand(deck):
+def get_hand(deck):
     return random.sample(deck,5)
 
 
@@ -22,4 +22,4 @@ if __name__ == "__main__":
 
     print(deck)
     print(shuffle(deck))
-    print(getHand(deck))
+    print(get_hand(deck))
