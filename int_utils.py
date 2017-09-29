@@ -71,6 +71,7 @@ def positive_factors(n):
 
 def product(array):
     return reduce(mul, array, 1)
+
         
 if __name__ == "__main__":
     from rle import rle
@@ -83,6 +84,7 @@ if __name__ == "__main__":
         assert len(positive_factors(i)) == nb_pos_fac
         print(i, fac, positive_factors(i))
         assert i == product(fac)
+    print(gcd(1440,408))
 
     
 
