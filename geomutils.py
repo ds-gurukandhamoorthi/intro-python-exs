@@ -1,3 +1,4 @@
+from math import pi, cos, sin
 POINTS = ((0,1),(0,-1),(1,0),(-1,0))
 POINTS3D = ((0,0,-1), (0,0,1),(0,1,0),(0,-1,0),(1,0,0),(-1,0,0))
 
@@ -12,7 +13,7 @@ def neighbours(coord, points=POINTS):
         res += [neigh]
     return res
 
-def mid_point(p1, p2):
+def midpoint(p1, p2):
     return tuple([(x + y)/2 for x,y in zip(p1,p2)])
 
 def gen_polygon_coordinates(n=3):
