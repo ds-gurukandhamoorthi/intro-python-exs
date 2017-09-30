@@ -1,21 +1,22 @@
 import random
 import sys
 import operator
+from collections import Counter
 
 
 def trial(nbTimes):
-    stat={}
+    stat= Counter()
     deck = list(range(52))
     for i in range(nbTimes):
         shuffled = random.sample(deck,len(deck))
         typeHand =nbCardsPerSuit(shuffled[:13])
-        stat[typeHand] = stat.get(typeHand,0) + 1
+        stat[typeHand] += 1
         typeHand =nbCardsPerSuit(shuffled[13:26])
-        stat[typeHand] = stat.get(typeHand,0) + 1
+        stat[typeHand] += 1
         typeHand =nbCardsPerSuit(shuffled[26:39])
-        stat[typeHand] = stat.get(typeHand,0) + 1
+        stat[typeHand] += 1
         typeHand =nbCardsPerSuit(shuffled[39:52])
-        stat[typeHand] = stat.get(typeHand,0) + 1
+        stat[typeHand] += 1
     return stat
 
 def nbCardsPerSuit(hand):

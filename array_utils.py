@@ -24,12 +24,6 @@ def split_every(n, array):
     return [array[i:i+n] for i in range(0,len(array),n)]
 #The difference between split_every and group2 is when len(array) is not a multiple of n
 
-def get_freqs( array):
-    freqs = {}
-    for val in array:
-        freqs[val] = freqs.get(val, 0) + 1
-    return freqs
-
 def int_dict_as_array(dctnry):
     mx = max(dctnry.keys())
     array = [0] * (mx + 1)

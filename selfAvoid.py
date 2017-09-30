@@ -48,8 +48,6 @@ def selfAvoidHappened(n):
                 return (True, steps, calcArea(box))
             setVisited(coord)
 
-
-
 def boundingRectangle(box, coord):
     "Given ((xmin, ymin),(xmax,ymax)) and (x,y) returns the new bounding box"
     ((xmin, ymin),(xmax,ymax)) = box
@@ -62,42 +60,30 @@ def calcArea(box):
     return abs(x2-x1) * abs(y2-y1)
 
 def limitlessSelfAvoid():
-    def isVisited(coord):
-        return visited.get(coord,False)
     def filterNeighboursVisitable(neighs):
-        res = []
-        for point in neighs:
-            if not isVisited(point):
-                res+=[point]
-        return res
+        return [point for point in neighs if point not in visited]
     coord = (0,0)
     steps = 0
-    visited = {}
+    visited = set()
     while True:
         # print(coord, steps, visited)
         steps += 1
-        visited[coord] = True
+        visited.add(coord)
         neighs = filterNeighboursVisitable(neighbours(coord))
         if len(neighs) == 0:
             return steps
         coord = oneOf(neighs)
 
 def limitlessSelfAvoid3D():
-    def isVisited(coord):
-        return visited.get(coord,False)
     def filterNeighboursVisitable(neighs):
-        res = []
-        for point in neighs:
-            if not isVisited(point):
-                res+=[point]
-        return res
+        return [point for point in neighs if point not in visited]
     coord = (0,0,0)
     steps = 0
-    visited = {}
+    visited = set() 
     while True:
         # print(coord, steps, visited)
         steps += 1
-        visited[coord] = True
+        visited.add(coord)
         neighs = filterNeighboursVisitable(neighbours(coord, POINTS3D))
         if len(neighs) == 0:
             return steps

@@ -1,10 +1,11 @@
 import argparse
 import random
-from array_utils import get_freqs, int_dict_as_array
+from array_utils import  int_dict_as_array
 from riffle_shuffle import nb_head
 import matplotlib.pyplot as plt
 from gauss import pdf
 from math import sqrt
+from collections import Counter
 
 def coin_toss(nb_max):
     return [random.randrange(0,2) for i in range(nb_max)]
@@ -17,8 +18,8 @@ def bernoulli(nb_toss, nb_trials, probab=0.5):
 
 def count_integers(array , n):
     "Returns the count of integers [0..n-1]"
-    freqs = get_freqs(array)
-    freqs = dict((k, freqs.get(k,0)) for k in range(n))
+    freqs = Counter(array)
+    freqs = dict((k, freqs[k]) for k in range(n))
     return int_dict_as_array(freqs)
 
 

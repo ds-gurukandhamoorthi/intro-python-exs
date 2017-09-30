@@ -2,6 +2,7 @@ from cards import get_hand
 from rle import rle
 from pprint import pprint
 import argparse
+from collections import Counter
 
 # RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
 RANKS = list(range(0,13))
@@ -80,11 +81,7 @@ def recognize(hand):
 
 def simulate(nb_trials):
     DECK = get_deck_tuple()
-    res = {}
-    for i in range(nb_trials):
-        hand = get_hand(DECK)
-        type_ = recognize(hand)
-        res[type_] = res.get(type_, 0) + 1
+    res = Counter((recognize(get_hand(DECK)) for i in range(nb_trials)))
     for k, v in res.items():
         res[k] = v/nb_trials
     return res

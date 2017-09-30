@@ -2,18 +2,19 @@ from ioutils import read_strings
 import matplotlib.pyplot as plt
 from math import log
 import random
+from collections import Counter
 
 def leading_digit(s):
     return s.strip()[0]
 
 def get_benford_dist(lines):
-    freqs = {}
+    freqs = Counter()
     count = 0
     for line in lines:
         dig = int(leading_digit(line))
-        freqs[dig] = freqs.get(dig,0)+1
+        freqs[dig] += 1
         count += 1
-    freqs_array = [freqs.get(k, 0) for k in range(0,10)]
+    freqs_array = [freqs[k] for k in range(0,10)]
     freqs_array = [ f / count for f in freqs_array ]
     return freqs_array
 

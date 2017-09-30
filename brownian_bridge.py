@@ -14,7 +14,6 @@ def brownian_bridge(frm, to, variance, scale):
     else:
         m = midpoint(frm,to)
         rand_height = normal(0,sqrt(variance))
-        print("rand_height", rand_height)
         m = m[0], m[1] +rand_height
         points += brownian_bridge(frm, m,  variance/scale, scale)
         points += brownian_bridge(m, to,  variance/scale, scale)
