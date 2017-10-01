@@ -16,8 +16,8 @@ def beckett_characters(n):
         else:
             action = 'exit'
             stage.remove(actor)
-        res += [(action, actor, list(stage))]
-    return res + [('exit', n,[])]
+        res += [(action, actor, list(stage), val)]
+    return res + [('exit', n,[], nxt)]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Simulate Beckett''s characters in the play `Quad`')
@@ -25,5 +25,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     nb_characters = args.nb_characters
 
-    for action, actor, stage in beckett_characters(nb_characters):
-        print(  action.rjust(8), actor, stage)
+    for action, actor, stage, code in beckett_characters(nb_characters):
+        print("{0:b}".format(code).rjust(nb_characters), action.rjust(8), actor, stage)
