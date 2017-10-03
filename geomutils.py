@@ -16,9 +16,9 @@ def neighbours(coord, points=POINTS):
 def midpoint(p1, p2):
     return tuple([(x + y)/2 for x,y in zip(p1,p2)])
 
-def gen_polygon_coordinates(n=3):
-    angles = (i*(2*pi / n) for i in range(0,n))
-    return [(cos(a), sin(a)) for a in angles]
+def gen_polygon_coordinates(n=3, scale=1, angle_offset=0):
+    angles = (angle_offset + i*(2*pi / n) for i in range(0,n))
+    return [(scale*cos(a), scale*sin(a)) for a in angles]
 
 if __name__ == "__main__":
     point1 = (1,2)

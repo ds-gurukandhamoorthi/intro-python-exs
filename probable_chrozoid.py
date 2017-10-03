@@ -5,6 +5,7 @@ sys.path.append('../')
 import stddraw
 import random
 from mathutils import cartesian_coord
+from geomutils import gen_polygon_coordinates
 
 parser = argparse.ArgumentParser(description='Draw a chrozoid graph using probability to draw lines')
 parser.add_argument('n', type=int, help='number of subdivisions of circle')
@@ -21,10 +22,7 @@ stddraw.setXscale(-n-1,n+1)
 stddraw.setYscale(-n-1,n+1)
 
 
-
-# stddraw.circle(0,0,n)
-angles = [ i * 2*(math.pi/n) for i in range(n)]
-points = [ cartesian_coord(n, angles[i]) for i in range(n)]
+points = gen_polygon_coordinates(n, scale=n, angle_offset=math.pi/2)
 
 for i in range(n):
     stddraw.setPenColor(stddraw.RED)
