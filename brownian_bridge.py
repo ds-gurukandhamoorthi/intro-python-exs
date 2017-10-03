@@ -19,8 +19,20 @@ def brownian_bridge(frm, to, variance, scale):
         points += brownian_bridge(m, to,  variance/scale, scale)
     return points
 
+def brownian_island(frm, to, variance, scale, n):
+    if n == 0:
+        return [(frm, to)]
+    m = midpoint(frm,to)
+    rand_height = normal(0,sqrt(variance))
+    rand_width = normal(0,sqrt(variance))
+    m = m[0] + rand_width, m[1] +rand_height
+    points = []
+    points += brownian_island(frm, m,  variance/scale, scale, n-1)
+    points += brownian_island(m, to,  variance/scale, scale, n-1)
+    return points
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Draw a brownian bridge')
+    parser = argparse.ArgumentParser(description='Draw a brownian bridge or island')
     parser.add_argument('hurst_exponent', type=float, help='Hurst exponent : controls smoothness')
     parser.add_argument('--volatility', type=float, help='volatility as variance')
 
@@ -32,7 +44,9 @@ if __name__ == "__main__":
         volatility = 0.01
 
     scale = 2**(2*hurst_exponent)
-    ps = brownian_bridge((0,1/2),(1,1/2), volatility, scale)
+    # scale = 2.7
+    # ps = brownian_bridge((0,1/2),(1,1/2), volatility, scale)
+    ps = brownian_island((1/2,1/2),(1/2,1/2), volatility, scale, 10)  #Enter volatility 0.75 from commandline
 
     lc = matplotlib.collections.LineCollection(ps)
     fig, ax = plt.subplots(1,1)

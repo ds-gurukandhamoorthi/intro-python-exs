@@ -64,6 +64,23 @@ def rec_sol4(n):
     m = int(log(n,2)) *  2  + 1
     return (2**(m))-1
 
+def mcCarthy(n):
+    if n > 100:
+        return n - 10
+    return mcCarthy(mcCarthy(n+11))
+
+def collatz(n):
+    if n == 1:
+        return [1] 
+    elif n % 2 == 0:
+        return [n] + collatz(n//2)
+    return [n] + collatz(3*n+1)
+
+def collatz_max(n):
+        nb_calls = [len(collatz(i)) for i in range(1, n+1)]
+    return nb_calls.index(max(nb_calls))+1
+
+
 
 
 

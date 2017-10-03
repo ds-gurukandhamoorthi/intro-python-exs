@@ -1,8 +1,5 @@
 import argparse
 
-def move(frm, to):
-    print(frm+1,'->', to+1)
-
 def zero_prepend(array, size_needed):
     zeros = [0] * (size_needed - len(array))
     return zeros + array[:]
@@ -68,15 +65,6 @@ def hanoi_steps(start, end, n):
     res += hanoi_steps(intermediate, end,  n-1)
     return res
 
-def hanoi(start, end, intermediate, n):
-    if n==0:
-        return
-    hanoi(start, intermediate, end, n-1)
-    move(start, end)
-    hanoi(intermediate, end, start, n-1)
-
-def hanoi_(start, end, n):
-    hanoi(start, end, 3-(start+end), n)
 
 #here hanoi is synonym of move n ordered pile from, to with an empty stack
 
@@ -86,17 +74,52 @@ def pile(from1, pile_on, k):
         return []
     if k == 1:
         return [(from1, pile_on)]
-    if k == 2:
-        return [(from2, pile_on),
-                (from1, pile_on)]
+    if k >= 2:
+        res = []
+        res += pile(from1, pile_on, k-1)
+        if k % 2 == 0:
+            res +=  hanoi_steps(pile_on, from1, k-1)
+            res += [(from2, pile_on)]
+            res +=  hanoi_steps(from1, pile_on, k-1)
+        else:
+            res +=  hanoi_steps(pile_on, from2, k-1)
+            res += [(from1, pile_on)]
+            res +=  hanoi_steps(from2, pile_on, k-1)
+    return res
 
-def merge(from1, to, k):
-    from2 = 3-(pile_on + from1)
+def depile(piled, start, k):
+    another = 3-(piled + start)
     if k == 0:
         return []
+    if k == 1:
+        return [(piled, start)]
+    if k >=2:
+        res = []
+        if k % 2 == 1:
+            res += hanoi_steps(piled, start, k-1)
+            res += [(piled, another)]
+            res += hanoi_steps(start, piled, k-1)
+        else:
+            res += hanoi_steps(piled, another , k-1)
+            res += [(piled, start)]
+            res += hanoi_steps(another, piled, k-1)
+
+    return res +depile(piled, start, k-1)
 
 
 
+def hanoi_variant_steps(odds, evens, n):
+    intermediate = 3-(odds+evens)
+    res = []
+    res += pile(odds, intermediate, n-1)
+    if n % 2 == 0:
+        res += [(evens, odds)]
+    else:
+        res += [(odds, evens)]
+    res += depile(intermediate, odds,n-1)
+    res += [(odds,evens)]
+
+    return res
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Solver tower of Hanoi problem')
@@ -113,6 +136,7 @@ if __name__ == "__main__":
 
     towers = hanoi_variant_towers(nb_discs)
     print_towers(towers)
-    piling = pile(0,1,2)
+    piling = pile(0,1,6)
+    piling = hanoi_variant_steps(0,2,nb_discs)
     print("piling", piling)
     animate_sol(towers,piling)

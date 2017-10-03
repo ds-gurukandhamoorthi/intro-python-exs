@@ -20,6 +20,10 @@ def gen_polygon_coordinates(n=3, scale=1, angle_offset=0):
     angles = (angle_offset + i*(2*pi / n) for i in range(0,n))
     return [(scale*cos(a), scale*sin(a)) for a in angles]
 
+def rotation_matrix(angle):
+    return [[cos(angle), -sin(angle)],
+            [sin(angle), cos(angle)]]
+
 if __name__ == "__main__":
     point1 = (1,2)
     point2 = (3,4)
@@ -32,6 +36,6 @@ if __name__ == "__main__":
 
 
 
-        
 
-        
+
+

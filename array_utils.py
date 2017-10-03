@@ -15,10 +15,18 @@ def bad_shuffle(array):
         array[i], array[r] = array[r],array[i]
     return array
 
+def normalize(array):
+    "Make the array's total = 1"
+    total = sum(array)
+    return [x / total for x in array]
+
 
 #tuple(from, to)
 def group2(lst):
     return zip(lst[0::2], lst[1::2])
+
+def group3(lst):
+    return zip(lst[0::3], lst[1::3],lst[2::3])
 
 def split_every(n, array):
     return [array[i:i+n] for i in range(0,len(array),n)]

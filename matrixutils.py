@@ -47,6 +47,10 @@ def matrMult(a, b):
 def rand(m,n):
     return create_matrix(m, n, lambda _x,_y: random.random())
 
+def rand_bool_matr(n, prob=0.5):
+    return create_matrix(n, n, lambda _x,_y: random.random()<prob)
+
+
 def identity(n):
     return create_matrix(n, n, lambda l,c: 1 if l==c else 0 )
 

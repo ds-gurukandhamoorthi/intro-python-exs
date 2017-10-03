@@ -1,20 +1,12 @@
+from array_utils import normalize
 def pascal_triangle_row(n):
     if n == 1:
         return [1]
-    res = [1] * n
     prev = pascal_triangle_row(n-1)
-    for i in range(1, n-1):
-        res[i] = prev[i-1] + prev[i]
-    return res
+    return [1] + [prev[i-1] + prev[i] for i in range(1, n-1)] + [1]
 
 def binomial_coefficients(n):
-    res = []
-    pasc_row = pascal_triangle_row(n)
-    total = sum(pasc_row) 
-    #print(total, 2**(n-1)) This is a property we can use to optimize a little
-    for val in pasc_row:
-        res += [val/total]
-    return res
+    return normalize(pascal_triangle_row(n))
 
 def pascal_triangle(n):
     res =[[1]]
@@ -32,6 +24,8 @@ def binom_distrib(n):
     for i,row in enumerate(pascal_triang):
         res += [[ val / 2**i for val in row ]]
     return res
+
+
 
 
     
