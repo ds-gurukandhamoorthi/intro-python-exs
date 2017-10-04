@@ -43,6 +43,13 @@ def rle(array):
         res += [(len(list(g)),k)]
     return res
 
+def rle_to_array(rles):
+    "From the running length encoding generate the array"
+    res = []
+    for count, value in rles:
+        res += count * [value]
+    return res
+
 
 
 if __name__ == "__main__":
