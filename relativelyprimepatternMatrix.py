@@ -4,6 +4,7 @@ import printBoolArray
 
 
 
+
 def relativelyPrimeSieve(n):
     sieve = [[True]*n for i in range(n)]
     for i in range(2,n+1):
@@ -20,3 +21,4 @@ if __name__ == "__main__":
     n = int(sys.argv[1])
     sieve = relativelyPrimeSieve(n)
     printBoolArray.printMatrix(sieve)
+    printBoolArray.showMatrix(sieve, true_color='green', false_color='red')

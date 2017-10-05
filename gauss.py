@@ -2,28 +2,10 @@ import argparse
 import math
 from taylor_series import taylor_series, step_phi
 import scipy.stats 
+from binary_search_function import inverse 
+from pynverse import inversefunc
 
 TOLERANCE = 10**-5
-def binary_search_interval(lo, hi, cmp_func, func, y):
-    midpoint = (lo + hi) / 2
-    res_comp = cmp_func(func, midpoint, TOLERANCE, y)
-    if res_comp == 0:
-        return midpoint
-    if res_comp > 0:
-        return binary_search_interval(midpoint, hi, cmp_func, func, y)
-    return binary_search_interval(lo, midpoint, cmp_func, func, y)
-
-def cmp_func(func, x0, tolerance, est):
-    "Tells if a given function evaluates to ext at x0 with the given tolerance: f(x0) = est ? Is the estimate greater than the actual value?"
-    val = func(x0)
-    if abs(val-est) < tolerance:
-        return 0
-    if est > val:
-        return 1
-    return -1
-
-
-
 
 
 def phi(x):
@@ -38,11 +20,8 @@ def Phi(x):
 def cdf(x, mu=0.0, sigma=1.0):
     return Phi((x-mu)/sigma)
 
-def inverse(func, y,  lo, hi, cmp_func=cmp_func):
-    return binary_search_interval(lo, hi, cmp_func, func, y)
-
 def Phi_inverse(y):
-    return inverse(Phi, y, -8.0, 8.0, cmp_func)
+    return inverse(Phi, y, -8.0, 8.0)
 
 
 
@@ -63,6 +42,6 @@ if __name__ == "__main__":
     print(pdf(z, mu, sigma), scipy.stats.norm(mu, sigma).pdf(z))
     y = Phi(z)
     x = Phi_inverse(y)
-    print(z, y, x)
+    print(z, y, x, inversefunc(Phi,y_values=y, domain=[-8,8], accuracy=25))
 
 

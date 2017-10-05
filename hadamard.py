@@ -1,10 +1,10 @@
-import math
 import printBoolArray
+from printBoolArray import showMatrix
 def hadamard(n):
     "Hadamard matrix of n with n a power of 2"
     if n == 1:
         return [[True]]
-    hn_1 = hadamard(int(math.sqrt(n)))
+    hn_1 = hadamard(n//2)
     inv_hn_1 = invBoolMatr(hn_1)
     row1 = hstack(hn_1,hn_1)
     row2 = hstack(hn_1,inv_hn_1)
@@ -50,3 +50,4 @@ if __name__ == "__main__":
     printBoolArray.printMatrix(hadamard(2),'T','F')
     printBoolArray.printMatrix(hadamard(4),'T','F')
     printBoolArray.printMatrix(hadamard(16),'T','F')
+    showMatrix(hadamard(32), true_color='green', false_color='red')

@@ -1,4 +1,5 @@
 from array_utils import normalize
+from printBoolArray import show_ragged_matr
 def pascal_triangle_row(n):
     if n == 1:
         return [1]
@@ -25,6 +26,17 @@ def binom_distrib(n):
         res += [[ val / 2**i for val in row ]]
     return res
 
+def oddity_pascal_triangle(n):
+    def odd(n):
+        return n%2 == 1
+    res = []
+    pascal = pascal_triangle(n)
+    for row in pascal:
+        res += [[odd(i) for i in row]]
+    return res
+
+
+
 
 
 
@@ -42,3 +54,5 @@ if __name__ == "__main__":
     print(pascal_triangle(3))
     print(pascal_triangle(4))
     print(pascal_triangle(5))
+    print(oddity_pascal_triangle(5))
+    show_ragged_matr(oddity_pascal_triangle(50))

@@ -8,6 +8,11 @@ from collections import Counter
 from matrixutils import transpose
 from geomutils import neighbours
 import sys
+import numpy as np
+from binary_search_function import inverse
+from pynverse import inversefunc
+
+RESTRICTED_NEIGH_POINTS = ((0,1),(0,-1),(1,0))
 
 def valid_neigbours(coord, max_lines,max_col):
     def valid(neigh):
@@ -24,10 +29,11 @@ def flow_vertical_only(open_state):
         res += [[open_prev and open_row for open_prev, open_row in zip(prev, row)]]
     return res
 
-def flow_hash(open_state):
+def flow_hash(open_state, direct_only=False):
     n = len(open_state)
     coords = [(i,j) for i in range(n) for j in range(n)]
     remaining = coords
+    res = {}
     def valid(neigh):
         l,c = neigh
         return (0<= l < n) and (0 <=c < n)
@@ -39,7 +45,11 @@ def flow_hash(open_state):
         if valid(coord):
             res[coord] = value
     def any_true_neigh(coord):
-        for neigh in neighbours(coord):
+        if direct_only == False: 
+            neighs = neighbours(coord)
+        else:
+            neighs = neighbours(coord, points=RESTRICTED_NEIGH_POINTS)
+        for neigh in neighs:
             if get(neigh) == True:
                 return True
         return None
@@ -47,8 +57,6 @@ def flow_hash(open_state):
         return sum([get(neigh) == False for neigh in neighbours(coord)])
     def nb_valid_neigbours(coord):
         return sum([valid(neigh) for neigh in neighbours(coord)])
-
-
     def calc_for(coord):
         i, j = coord
         if i == 0:
@@ -57,22 +65,19 @@ def flow_hash(open_state):
         if open_state[i][j] == False:
             set(coord, False)
             return
-        if any_true_neigh((i,j)) == True:
+        if any_true_neigh(coord) == True:
             set(coord, True)
             return 
         if nb_false_neighbours(coord) == nb_valid_neigbours(coord):
             set(coord, False)
             return
-
-    res = {}
-    for coord in remaining:
-        calc_for(coord)
-    remaining = [coord for coord in coords if coord not in res.keys()]
-    print("remaining", remaining, len(remaining))
-    for coord in remaining:
-        calc_for(coord)
-    print("remaining", remaining, len(remaining))
-    print(len(res))
+    while True:
+        prev_rem = len(remaining)
+        for coord in remaining:
+            calc_for(coord)
+        remaining = [coord for coord in coords if coord not in res.keys()]
+        if not(prev_rem > len(remaining)):
+           break 
     return as_matrix(res, n)
 
 def as_matrix(hashed_coord,n):
@@ -86,63 +91,6 @@ def as_matrix(hashed_coord,n):
 
 
 
-
-def connected_to_top(open_state, i, j, partial):
-    "For the given coordinates tells if the cell is connected to the top (can the top percolate until this cell)"
-    if i == 0:
-        return open_state[i][j]
-    if open_state[i][j] == False:
-        return False
-    if partial[i][j-1] == True:
-        return True
-    if partial[i-1][j] == True:
-        return True
-    n = len(open_state)
-    for l,c in valid_neigbours((i,j), n, n):
-        if connected_to_top(open_state, l, c, partial):
-            return True
-    return False
-    # return any ((connected_to_top(open_state, l, c, partial) for l,c in valid_neigbours((i,j), n, n)))
-
-def connect_to_top_inplace(open_state, i , j , partial):
-    n = len(open_state)
-    if i >= n or i <0 or j >=n or j<0:
-        return
-    if partial[i][j] is not None:
-        return
-    if i == 0:
-        partial[i][j] = open_state[i][j]
-        return
-    if open_state[i][j] == False:
-        partial[i][j] = False
-        return
-    if partial[i][j-1] == True:
-        partial[i][j] = True
-        return
-    if partial[i-1][j] == True:
-        partial[i][j] = True
-        return
-    connect_to_top_inplace(open_state, i+1, j, partial)
-    connect_to_top_inplace(open_state, i, j+1, partial)
-    connect_to_top_inplace(open_state, i, j-1, partial)
-    connect_to_top_inplace(open_state, i-1, j, partial)
-    
-
-
-
-# def flow(open_state):
-#     res = [[None]*n for i in range(n)]
-#     for i in range(n):
-#         connect_to_top_inplace(open_state, 0 , i, res)
-#     return res
-
-def flow(open_state):
-    res = flow_(open_state)
-    for i in range(n):
-        for j in range(n):
-            if res[i][j] is None:
-                connect_to_top_inplace(open_state, i+1, j, res)
-    return res
 
 def flow_(open_state):
     res = [open_state[0]]
@@ -183,8 +131,8 @@ def flow_horiz(row):
     return rle_to_array(count_types)
     
 
-def percolates(open_state):
-    flw = flow_hash(open_state)
+def percolates(open_state, direct_only=False):
+    flw = flow_hash(open_state, direct_only)
     return any(flw[-1])
 
 def percolatesv(open_state):
@@ -195,7 +143,7 @@ def get_shapes_for(matr):
     lst_squares = []
     n = len(matr)
     flw = flow_hash(matr)
-    for i, row in enumerate(matr):
+    for i, row in enumerate(flw):
         for j, cell in enumerate(row):
             (x,y) = j, n -i -1
             if cell == False:
@@ -204,43 +152,101 @@ def get_shapes_for(matr):
                 lst_squares += [patches.Rectangle((x,y), 1, 1, facecolor='blue')]
     return lst_squares
 
-def experiment(n, prob, nb_trials):
+def ascii_text(matr):
+    lst_squares = []
+    n = len(matr)
+    flw = flow_hash(matr)
+    for i, row in enumerate(flw):
+        for j, cell in enumerate(row):
+            (x,y) = j, n -i -1
+            if cell == False:
+                print('1', end='')
+            elif flw[i][j] == True:
+                print('*', end='')
+            else:
+                print('0', end='')
+        print('')
+
+def experiment(n, prob, nb_trials, direct_only=False):
     success = 0
-    return sum([percolates(rand_bool_matr(n,prob)) for i in range(nb_trials)])
+    return sum([percolates(rand_bool_matr(n,prob), direct_only) for i in range(nb_trials)])
 
 if __name__ == "__main__":
-    # sys.setrecursionlimit(15000)
-    # matr = [
-    # [False,True,True,False,True],
-    # [False,False,True,True,True],
-    # [True,True,False,True,True],
-    # [True,False,False,False,True],
-    # [False,True,True,True,True]]
     parser = argparse.ArgumentParser(description='Percolation for a random matrix')
     parser.add_argument('n', type=int, help='dimension of the square matrix')
-    parser.add_argument('p', type=float, help='probability for the cell be True in the matrix')
+    # parser.add_argument('p', type=float, help='probability for the cell be True in the matrix')
+    parser.add_argument('--nb-interval-prob', type=int, help='number of interval for the probabilities')
+    parser.add_argument('--nb-trials', type=int, help='number of times the experiment must be carried out')
+    parser.add_argument('--estimate-threshold', help='estimate the threshold of percolates', action='store_true')
+    parser.add_argument('--adaptive', help='EXPERIMENTAL:feature make the intervals based on xaxis rather than the yaxis', action='store_true')
+    parser.add_argument('--ascii-with-prob', type=float, help='given the prob draw ascii with the given prob')
+    parser.add_argument('--directed', help='help for ', action='store_true')
     args = parser.parse_args()
     n = args.n
-    p = args.p
-    matr = rand_bool_matr(n,p)
-    pprint(matr)
-    pprint(flow_hash(matr))
+    directed = args.directed
+    NBINTERV = args.nb_interval_prob
+    nb_trials = args.nb_trials
+    # p = args.p
+    # matr = rand_bool_matr(n,p)
+    # pprint(matr)
+    # res = flow_hash(matr)
+    # pprint(res)
+    if directed is None:
+        directed = False
 
-    # sys.exit(0)
-    
+    if args.ascii_with_prob:
+        p=args.ascii_with_prob
+        matr = rand_bool_matr(n,p)
+        ascii_text(matr)
+        sys.exit(0)
 
 
     fig, ax = plt.subplots()
-    ax.set_xlim(0, n)
-    ax.set_ylim(0, n)
-    for ptch in get_shapes_for(matr):
-        ax.add_patch(ptch)
-    plt.axis('off')
-    fig.savefig('perc.png', dpi=90)
+    # ax.set_xlim(0, n)
+    # ax.set_ylim(0, n)
+    # for ptch in get_shapes_for(matr):
+    #     ax.add_patch(ptch)
+    # plt.axis('off')
+    # fig.savefig('perc.png', dpi=90)
     # plt.show()
-    nb_trials = 1000
-    # sys.exit(0)
-    success = experiment(n, p, nb_trials)
-    print(success, nb_trials, success/nb_trials)
-    pprint(flow(matr))
+    if nb_trials is None:
+        nb_trials = 100
+    if NBINTERV is None:
+        NBINTERV = 11
+
+
+
+    def perc_func(p):
+        success = experiment(n, p, nb_trials)
+        return success/nb_trials
+    prob_of_success = [0] * NBINTERV
+    probs = np.linspace(0,1,NBINTERV)
+    res_probs = np.linspace(0,1,NBINTERV)
+    if args.adaptive == True:
+        probs=[]
+        for y in res_probs:
+            probs+= [inversefunc(perc_func, y_values=y, domain=[0,1])]
+        print(probs)
+    for i, p in enumerate(probs):
+        success = experiment(n, p, nb_trials, directed)
+        prob_of_success[i] = success /nb_trials
+        print(success, nb_trials, success/nb_trials)
+    print(prob_of_success)
+    ax.set_xlim(0,1)
+    ax.set_ylim(0,1)
+    plt.title('Probability of percolation nb_sites :' + str(n) + ' nb_trials: ' + str(nb_trials))
+    plt.xlabel('site vacancy probability')
+    plt.ylabel('percolation probability')
+    colors = ['green' if p > 0.5 else 'red' for p in prob_of_success]
+    plt.scatter(probs,prob_of_success,color=colors)
+    plt.show()
+    if args.estimate_threshold:
+        print('Estimating threshold value...')
+        a = inversefunc(perc_func, y_values=0.5, domain=[0.4,0.6])
+        b = inverse(perc_func,0.5,0.4,0.6)
+        print('Threshold value using pynverse', a)
+        print('Threshold value is', b)
+
+
+
 
