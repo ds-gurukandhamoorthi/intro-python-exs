@@ -12,6 +12,16 @@ def get_shapes_for(matr, true_color='white', false_color='black'):
             lst_squares += [patches.Rectangle((x,y), 1, 1, facecolor=color)]
     return lst_squares
 
+def get_dot_shapes_for(matr, true_color='green', false_color='red'):
+    lst_shapes= []
+    n = len(matr)
+    for i, row in enumerate(matr):
+        for j, cell in enumerate(row):
+            (x,y) = j, n -i -1
+            color = true_color if cell == True else false_color
+            lst_shapes += [patches.Circle((x,y), 0.2,  facecolor=color)]
+    return lst_shapes
+
 def get_shapes_for_ragged(matr, true_color='green', false_color='red'):
     lst_squares = []
     n = len(matr)

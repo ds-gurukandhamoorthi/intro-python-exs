@@ -1,5 +1,7 @@
 import random
+import numpy as np
 from tuple_utils import swp
+from itertools import product
 
 def dimen(matrix):
     return (len(matrix), len(matrix[0]))
@@ -47,8 +49,8 @@ def matrMult(a, b):
 def rand(m,n):
     return create_matrix(m, n, lambda _x,_y: random.random())
 
-def rand_bool_matr(n, prob=0.5):
-    return create_matrix(n, n, lambda _x,_y: random.random()<prob)
+def rand_bool_matr(nr,nc, prob=0.5):
+    return create_matrix(nr, nc, lambda _x,_y: random.random()<prob)
 
 
 def identity(n):
@@ -86,8 +88,15 @@ def multiplyVM(v, m):
     return matrMult([v], m)[0]
 
 
-            
+def rand_bool_matrix_2d(n, m, p =0.5):
+    res = np.zeros([n,m],np.bool_)
+    for coord in product(range(n), range(m)):
+        res[coord] = True if random.random()<p else False
+    return res
 
 
-
-
+def rand_bool_matrix_3d(n, m ,layers, p =0.5):
+    res = np.zeros([n,m,layers],np.bool_)
+    for coord in product(range(n), range(m), range(layers)):
+        res[coord] = True if random.random()<p else False
+    return res

@@ -2,17 +2,21 @@ from matrixutils import rand_bool_matr
 from pprint import pprint
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
+import matplotlib.collections
 import argparse
 from rle import rle, rle_to_array
 from collections import Counter
-from matrixutils import transpose
-from geomutils import neighbours
+from matrixutils import transpose, dimen
+from geomutils import neighbours, POINTS
 import sys
 import numpy as np
 from binary_search_function import inverse
 from pynverse import inversefunc
+from printBoolArray import get_dot_shapes_for
+from itertools import product
 
 RESTRICTED_NEIGH_POINTS = ((0,1),(0,-1),(1,0))
+TRIANGULAR_GRID_POINTS = POINTS + ((-1,1),(1,-1))
 
 def valid_neigbours(coord, max_lines,max_col):
     def valid(neigh):
@@ -29,14 +33,15 @@ def flow_vertical_only(open_state):
         res += [[open_prev and open_row for open_prev, open_row in zip(prev, row)]]
     return res
 
-def flow_hash(open_state, direct_only=False):
-    n = len(open_state)
-    coords = [(i,j) for i in range(n) for j in range(n)]
+def flow_hash(open_state, direct_only=False, triangular_grid=False):
+    nr, nc = dimen(open_state)
+    # coords = [(i,j) for i in range(nr) for j in range(nc)]
+    coords = list(product(range(nr), range(nc)))
     remaining = coords
     res = {}
     def valid(neigh):
-        l,c = neigh
-        return (0<= l < n) and (0 <=c < n)
+        r,c = neigh
+        return (0<= r < nr) and (0 <=c < nc)
     def get(coord):
         if valid(coord):
             return res.get(coord, None)
@@ -45,10 +50,12 @@ def flow_hash(open_state, direct_only=False):
         if valid(coord):
             res[coord] = value
     def any_true_neigh(coord):
-        if direct_only == False: 
-            neighs = neighbours(coord)
-        else:
+        if direct_only == True: 
             neighs = neighbours(coord, points=RESTRICTED_NEIGH_POINTS)
+        elif triangular_grid == True:
+            neighs = neighbours(coord, points=TRIANGULAR_GRID_POINTS)
+        else:
+            neighs = neighbours(coord)
         for neigh in neighs:
             if get(neigh) == True:
                 return True
@@ -78,10 +85,10 @@ def flow_hash(open_state, direct_only=False):
         remaining = [coord for coord in coords if coord not in res.keys()]
         if not(prev_rem > len(remaining)):
            break 
-    return as_matrix(res, n)
+    return as_matrix(res, nr, nc)
 
-def as_matrix(hashed_coord,n):
-    res = [[None]*n for i in range(n)]
+def as_matrix(hashed_coord,nr, nc):
+    res = [[None]*nc for i in range(nr)]
     for x,y in hashed_coord:
         res[x][y] = hashed_coord[(x,y)]
     return res
@@ -131,8 +138,8 @@ def flow_horiz(row):
     return rle_to_array(count_types)
     
 
-def percolates(open_state, direct_only=False):
-    flw = flow_hash(open_state, direct_only)
+def percolates(open_state, direct_only=False,triangular_grid=False):
+    flw = flow_hash(open_state, direct_only,triangular_grid)
     return any(flw[-1])
 
 def percolatesv(open_state):
@@ -152,6 +159,7 @@ def get_shapes_for(matr):
                 lst_squares += [patches.Rectangle((x,y), 1, 1, facecolor='blue')]
     return lst_squares
 
+
 def ascii_text(matr):
     lst_squares = []
     n = len(matr)
@@ -167,23 +175,59 @@ def ascii_text(matr):
                 print('0', end='')
         print('')
 
-def experiment(n, prob, nb_trials, direct_only=False):
+def experiment(nr,nc, prob, nb_trials, direct_only=False, triangular_grid=False):
     success = 0
-    return sum([percolates(rand_bool_matr(n,prob), direct_only) for i in range(nb_trials)])
+    return sum([percolates(rand_bool_matr(nr,nc,prob), direct_only, triangular_grid) for i in range(nb_trials)])
+
+def experiment_vertical_only(nr,nc, prob, nb_trials):
+    success = 0
+    return sum([percolatesv(rand_bool_matr(nr,nc,prob)) for i in range(nb_trials)])
+
+def show_bond_perc(matr):
+    n = len(matr)
+    flw = flow_hash(matr)
+    lst_lines = []
+    for i, row in enumerate(flw):
+        for j, cell in enumerate(row):
+            (x,y) = j, n -i -1
+            if cell == True:
+                if j+1 < n and flw[i][j+1] and x+1 < n :
+                    lst_lines += [[(x,y),(x+1,y)]]
+                if i+1 < n and flw[i+1][j] and y-1 >=0 :
+                    lst_lines += [[(x,y),(x,y-1)]]
+    lc = matplotlib.collections.LineCollection(lst_lines)
+    fig, ax = plt.subplots()
+    ax.add_collection(lc)
+
+
+    lst_dots = get_dot_shapes_for(matr)
+    ax.set_xlim(-1,n+1)
+    ax.set_ylim(-1,n+1)
+    for ptch in lst_dots:
+        ax.add_patch(ptch)
+    plt.show()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Percolation for a random matrix')
-    parser.add_argument('n', type=int, help='dimension of the square matrix')
+    parser.add_argument('n', type=int, help='number of rows')
+    parser.add_argument('m', type=int, help='number of columns')
     # parser.add_argument('p', type=float, help='probability for the cell be True in the matrix')
+    group = parser.add_mutually_exclusive_group()
     parser.add_argument('--nb-interval-prob', type=int, help='number of interval for the probabilities')
     parser.add_argument('--nb-trials', type=int, help='number of times the experiment must be carried out')
     parser.add_argument('--estimate-threshold', help='estimate the threshold of percolates', action='store_true')
     parser.add_argument('--adaptive', help='EXPERIMENTAL:feature make the intervals based on xaxis rather than the yaxis', action='store_true')
     parser.add_argument('--ascii-with-prob', type=float, help='given the prob draw ascii with the given prob')
-    parser.add_argument('--directed', help='help for ', action='store_true')
+    group.add_argument('--directed', help=' ', action='store_true')
+    group.add_argument('--triangular-grid', help='if the grid is triangular (6 neighbours)', action='store_true')
+    group.add_argument('--vertical-only', help='help for ', action='store_true')
+    parser.add_argument('--bond', help='edges of th grid provides connectivity', action='store_true')
     args = parser.parse_args()
     n = args.n
+    m = args.m
     directed = args.directed
+    triangular_grid = args.triangular_grid
     NBINTERV = args.nb_interval_prob
     nb_trials = args.nb_trials
     # p = args.p
@@ -193,12 +237,41 @@ if __name__ == "__main__":
     # pprint(res)
     if directed is None:
         directed = False
+    if triangular_grid is None:
+        triangular_grid = False
+    if triangular_grid:
+        n+=1
+        m+=1
 
     if args.ascii_with_prob:
         p=args.ascii_with_prob
-        matr = rand_bool_matr(n,p)
+        matr = rand_bool_matr(n,m,p)
         ascii_text(matr)
         sys.exit(0)
+    
+    if args.vertical_only:
+        NBINTERV = 11
+        nb_trials = 1000
+        probs = np.linspace(0,1,NBINTERV)
+        prob_of_success = [0] * NBINTERV
+        assert n == m #we only know theoritical_vertical_percolation for square matrices
+        for i, p in enumerate(probs):
+            theoritical_vertical_percolation = 1-(1-p**n)**n
+            success = experiment_vertical_only(n, m, p, nb_trials)
+            prob_of_success[i] = success /nb_trials
+            print(success, nb_trials, success/nb_trials, theoritical_vertical_percolation)
+        sys.exit(0)
+    if args.bond:
+        n+=1
+        m+=1
+        matr = rand_bool_matr(n,m,0.7)
+        print(matr)
+        print(flow_hash(matr))
+        show_bond_perc(matr)
+        sys.exit(0)
+        
+
+        
 
 
     fig, ax = plt.subplots()
@@ -215,9 +288,8 @@ if __name__ == "__main__":
         NBINTERV = 11
 
 
-
     def perc_func(p):
-        success = experiment(n, p, nb_trials)
+        success = experiment(n,m, p, nb_trials, triangular_grid=triangular_grid)
         return success/nb_trials
     prob_of_success = [0] * NBINTERV
     probs = np.linspace(0,1,NBINTERV)
@@ -228,13 +300,13 @@ if __name__ == "__main__":
             probs+= [inversefunc(perc_func, y_values=y, domain=[0,1])]
         print(probs)
     for i, p in enumerate(probs):
-        success = experiment(n, p, nb_trials, directed)
+        success = experiment(n, m, p, nb_trials, directed, triangular_grid)
         prob_of_success[i] = success /nb_trials
         print(success, nb_trials, success/nb_trials)
     print(prob_of_success)
     ax.set_xlim(0,1)
     ax.set_ylim(0,1)
-    plt.title('Probability of percolation nb_sites :' + str(n) + ' nb_trials: ' + str(nb_trials))
+    plt.title('Probability of percolation nb_sites :' + str(n) + '×' + str(m) + ' nb_trials: ' + str(nb_trials))
     plt.xlabel('site vacancy probability')
     plt.ylabel('percolation probability')
     colors = ['green' if p > 0.5 else 'red' for p in prob_of_success]
@@ -242,11 +314,12 @@ if __name__ == "__main__":
     plt.show()
     if args.estimate_threshold:
         print('Estimating threshold value...')
-        a = inversefunc(perc_func, y_values=0.5, domain=[0.4,0.6])
-        b = inverse(perc_func,0.5,0.4,0.6)
+        a = inversefunc(perc_func, y_values=0.5, domain=[0.3,0.8])
+        b = inverse(perc_func,0.5,0.3,0.8)
         print('Threshold value using pynverse', a)
         print('Threshold value is', b)
-
+            
+                
 
 
 
