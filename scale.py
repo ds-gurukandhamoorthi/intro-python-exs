@@ -6,10 +6,10 @@ import argparse
 import os
 from functools import partial
 
-WEIGHTED_RGB = [0.299, 0.587, 0.114]
 
 def scale(orig_geom, new_geom, coord):
-    return tuple([ int((x/n)*o) for x,n,o in zip(coord, new_geom, orig_geom)])
+    return tuple( int((x/n)*o) for x,n,o in zip(coord, new_geom, orig_geom))
+
 
 
 if __name__ == "__main__":
