@@ -10,34 +10,22 @@ def total_potential(coord, charges):
         res += charge.potential_at(coord)
     return res
 
-
 def color_for(potential):
-    res= (255/2)  + (potential/2.0e10)
-    v = res
-    if v < 0:
-        gs = 0
-    elif v > 255:
-        gs = 255
-    else:
-        gs = int(v)
-    return gs/255
-
-def color_for_(potential):
-    # res= 0.5+potential/2.0e10
-    res= 0.5+potential/2.0e11
+    # res= 0.5+(potential/2.0e10/255)
+    res= 0.5+(potential/2.0e10/255)
+    if res < 0:
+        return 0
     if res > 1:
         return 1
     return res
 
-def create_image(charges,hist):
+def create_image(charges):
     SIZE=100
     potentials = np.zeros((SIZE,SIZE,3))
     for x in range(SIZE):
         for y in range(SIZE):
             coord = (x/SIZE, y/SIZE)
             pot = total_potential(coord, charges)
-            hist+=[pot]
-            print(pot, color_for(pot), color_for_(pot))
             potentials[SIZE-y-1,x]= color_for(pot)
 
     mpimg.imsave('potentials.png', potentials)
@@ -54,10 +42,7 @@ if __name__ == "__main__":
             q = values[2]
             charges += [Charge(coord,q)]
     print(charges)
-    hist=[]
-    create_image(charges,hist)
-    hist = sorted(hist, reverse=True)
-    print(hist[0:10])
+    create_image(charges)
 
 
 
