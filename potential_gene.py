@@ -14,3 +14,5 @@ def is_potential_gene(dna):
     return True
     
 
+def get_potential_genes(sequence, min_length):
+
