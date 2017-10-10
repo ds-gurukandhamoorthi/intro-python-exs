@@ -7,6 +7,9 @@ POINTS3D = ((0,0,-1), (0,0,1),(0,1,0),(0,-1,0),(1,0,0),(-1,0,0))
 def add_coords(coord1, coord2):
     return tuple([x+y for x, y in zip(coord1,coord2)])
 
+def sub_coords(coord1, coord2):
+    return tuple([x-y for x, y in zip(coord1,coord2)])
+
 def neighbours(coord, points=POINTS):
     res = []
     for point in points:

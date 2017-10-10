@@ -2,10 +2,7 @@ import argparse
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from geomutils import add_coords
-import random
-
-def as_matplotlib_color(color):
-    return tuple([c /255 for c in color])
+from colorutils import as_matplotlib_color, rand_color
 
 def albers_square(c1,c2, coord, width):
     c1, c2 = as_matplotlib_color(c1), as_matplotlib_color(c2)
@@ -16,13 +13,7 @@ def albers_square(c1,c2, coord, width):
     res += [patches.Rectangle(lc, width*ratio,width*ratio, facecolor=c2)]
     return res
 
-def rand_color():
-    return (random.randrange(255),random.randrange(255),random.randrange(255))
 
-def luminance(rgb):
-    c = as_matplotlib_color(rgb)
-    r, g, b = c
-    return 0.299*r+0.587*g+0.114*b
 
 
 
