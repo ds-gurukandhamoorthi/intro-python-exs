@@ -4,6 +4,7 @@ import re
 import matplotlib.image as mpimg
 import numpy as np
 import random
+from itertools import product
 
 def total_potential(coord, charges):
     res = 0
@@ -36,6 +37,22 @@ def random_Charge(mean, sd):
     charge = np.random.normal(mean, sd)
     return Charge((x,y), charge)
 
+def minimum_potential_point(charges):
+    NB_SPLIT=100
+    values = np.linspace(0,1,NB_SPLIT+1)
+    coords = product(values,values)
+    minim = None
+    res = None
+    for coord in coords:
+        pot = total_potential(coord, charges)
+        if minim is None:
+            minim = pot
+        elif pot < minim:
+            minim = pot
+            res = Charge(coord, pot)
+    return res
+
+
 
 
 if __name__ == "__main__":
@@ -53,6 +70,10 @@ if __name__ == "__main__":
     for c in charges:
         print(c)
     create_image(charges)
+    charges = [random_Charge(20,1) for i in range(2)]
+    for c in charges:
+        print(c)
+    print(minimum_potential_point(charges))
 
 
 

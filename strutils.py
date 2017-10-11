@@ -1,4 +1,6 @@
 import re
+from collections import Counter
+from math import log
 def words(str):
     def remove_empty_strings(listelems):
         # return list(filter(lambda x: x != '', listelems))
@@ -68,6 +70,17 @@ def substring_prefix_suffix(prefix, suffix, string):
         if prefix not in s and suffix not in s:
             res += [prefix+s+suffix]
     return res
+
+def shannon_entropy(string):
+    n = len(string)
+    occurs = Counter(string)
+    freq = ((k,(occurs[k]/n)) for k in occurs)
+    probs = (-p * log(p,2) for k,p in freq)
+    return sum(probs)
+
+def metric_entropy(string):
+    return shannon_entropy(string)/len(string)
+
 
 
 
