@@ -45,14 +45,29 @@ def mystery(s):
         return s
     return mystery(s[n//2:]) + mystery(s[:n//2])
 
-def substrings(s, window):
+def substrings_win(s, window):
     assert window > 0
     return (s[i:i+window] for i in  range(len(s)-window+1))
+
+def substrings(s):
+    n = len(s)
+    res = []
+    for i in range(n+1):
+        for j in range(i):
+            res += [''.join(s[j:i])]
+    return res
+
 
 def possible_genes(s, min_length):
     assert min_length > 0
     return (s[i:] for i in  range(len(s)-min_length+1))
 
+def substring_prefix_suffix(prefix, suffix, string):
+    res = []
+    for s in substrings(string):
+        if prefix not in s and suffix not in s:
+            res += [prefix+s+suffix]
+    return res
 
 
 

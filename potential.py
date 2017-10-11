@@ -3,6 +3,7 @@ from charge import Charge
 import re
 import matplotlib.image as mpimg
 import numpy as np
+import random
 
 def total_potential(coord, charges):
     res = 0
@@ -30,18 +31,27 @@ def create_image(charges):
 
     mpimg.imsave('potentials.png', potentials)
 
+def random_Charge(mean, sd):
+    x,y = random.random(), random.random()
+    charge = np.random.normal(mean, sd)
+    return Charge((x,y), charge)
+
+
 
 if __name__ == "__main__":
-    content = read_strings()
-    charges =[]
-    for line in content:
-        values = re.split('\s+', line)
-        if len(values) == 3:
-            values = [float(x) for x in values]
-            coord = tuple(values[0:2])
-            q = values[2]
-            charges += [Charge(coord,q)]
-    print(charges)
+    # content = read_strings()
+    # charges =[]
+    # for line in content:
+    #     values = re.split('\s+', line)
+    #     if len(values) == 3:
+    #         values = [float(x) for x in values]
+    #         coord = tuple(values[0:2])
+    #         q = values[2]
+    #         charges += [Charge(coord,q)]
+    n = 5
+    charges = [random_Charge(10,10) for i in range(n)]
+    for c in charges:
+        print(c)
     create_image(charges)
 
 
