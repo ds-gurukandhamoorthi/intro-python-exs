@@ -14,3 +14,6 @@ def as_matplotlib_color(color):
 
 def rand_color():
     return (random.randrange(255),random.randrange(255),random.randrange(255))
+
+def similar(color1, color2, dist):
+    return abs(luminance(color1)-luminance(color2)) < dist

@@ -1,9 +1,7 @@
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-import numpy as np
 import argparse
 import os
-from functools import partial
+import matplotlib.image as mpimg
+import numpy as np
 
 
 def tile(img_array, horiz_repeat, vertic_repeat):
@@ -23,7 +21,5 @@ if __name__ == "__main__":
     outputfile = os.path.splitext(filename)[0] + str(horiz_repeat) +'x' +str(vertic_repeat) + '.png'
     im = mpimg.imread(filename)
     tiled = tile(im, horiz_repeat, vertic_repeat)
-    print(im.shape, tiled.shape)
-    print(tiled)
     mpimg.imsave(outputfile, tiled)
 

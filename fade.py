@@ -14,6 +14,7 @@ def morph(from_pixel, to_pixel, weight):
     return tuple( f*(1-weight) + t*weight  for f,t in zip(from_pixel, to_pixel))
 
 def morph_array(from_array, to_array, weight):
+    print( from_array.shape , to_array.shape)
     assert from_array.shape == to_array.shape
     dims = from_array.shape
     res_array = np.zeros(from_array.shape)

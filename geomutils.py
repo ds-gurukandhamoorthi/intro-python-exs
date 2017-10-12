@@ -28,6 +28,19 @@ def rotation_matrix(angle):
     return [[cos(angle), -sin(angle)],
             [sin(angle), cos(angle)]]
 
+def is_valid_coord(coord, shape):
+    if len(coord) != len(shape):
+        return False
+    return all( 0<=x<dim for x, dim in zip(coord,shape))
+
+def lc_to_xy(coord, height):
+    l, c = coord
+    return (c, height-1-l)
+
+def xy_to_lc(coord, height):
+    x, y = coord
+    return(height-1-y,x)
+
 if __name__ == "__main__":
     point1 = (1,2)
     point2 = (3,4)
