@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 def fourier_spike(t,n):
     "Returns the average of the n terms of a cosinus series"
     series = (cos(i*t) for i in range(1,n+1))
-    return sum(serie)/n
+    return sum(series)/n
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Draws Fourier spikes')
@@ -21,6 +21,8 @@ if __name__ == "__main__":
     xs = numpy.linspace(FROM, TO, NB_INTERV)
     ys = [fourier_spike(x,n) for x in xs]
     print(xs,ys)
+    fig, ax = plt.subplots()
+    ax.axis('equal')
     plt.plot(xs,ys)
     plt.show()
 

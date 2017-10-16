@@ -42,6 +42,7 @@ if __name__ == "__main__":
 
     fig, ax=plt.subplots()
     plt.axis('off')
+    ax.axis('equal')
     ax.set_xlim(-1,1)
     ax.set_ylim(-1,1)
     for shp in get_list_shapes(pts2):

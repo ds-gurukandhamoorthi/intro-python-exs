@@ -50,7 +50,8 @@ if __name__ == "__main__":
 
     lc = matplotlib.collections.LineCollection(ps)
     fig, ax = plt.subplots(1,1)
-    ax.add_collection(lc,autolim=True)
+    ax.axis('equal')
+    ax.add_collection(lc)
     ax.set_xlim([0,1])
     ax.set_ylim([0,1])
     ax.set_title('Brownian bridge')

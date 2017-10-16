@@ -304,6 +304,7 @@ if __name__ == "__main__":
         prob_of_success[i] = success /nb_trials
         print(success, nb_trials, success/nb_trials)
     print(prob_of_success)
+    ax.axis('equal')
     ax.set_xlim(0,1)
     ax.set_ylim(0,1)
     plt.title('Probability of percolation nb_sites :' + str(n) + '×' + str(m) + ' nb_trials: ' + str(nb_trials))

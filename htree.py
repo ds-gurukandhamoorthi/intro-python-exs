@@ -37,13 +37,14 @@ if __name__ == "__main__":
     order = args.order
     h = htree_lines(0,0,1,order)
     i = 0
-    fig, ax = plt.subplots(1,1)
-    ax.set_xlim(-1.2,1.2)
-    ax.set_ylim(-1.2,1.2)
+    fig, ax = plt.subplots()
+    ax.axis('equal')
     for i in range(1,len(h)//3+1):
         lc = matplotlib.collections.LineCollection(h[:i*3])
         ax.set_title('H- Tree of order ' + str(order))
-        ax.add_collection(lc,autolim=True)
+        ax.set_xlim(-1.2,1.2)
+        ax.set_ylim(-1.2,1.2)
+        ax.add_collection(lc)
         plt.draw()
         plt.pause(1e-17)
         time.sleep(0.1)

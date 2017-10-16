@@ -1,0 +1,21 @@
+from Turtle import Turtle
+import argparse
+from math import sin, radians
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Draw of polygon but reduce the size every time')
+    parser.add_argument('n', type=int, help='number of sides of the polygon')
+    parser.add_argument('nb_steps', type=int, help='number of iterations')
+    parser.add_argument('decay', type=float, help='decay the step size')
+    args = parser.parse_args()
+    n = args.n
+    decay = args.decay
+    nb_steps = args.nb_steps
+    t = Turtle(0.5,0.1, 180/n)
+    size = sin(radians(180/n))
+    for i in range(nb_steps*n):
+        size /= decay
+        t.go_forward(size)
+        t.turn_left(360/n)
+    print(t._lines)
+    t.draw()

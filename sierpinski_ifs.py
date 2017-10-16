@@ -22,5 +22,7 @@ if __name__ == "__main__":
     # points = sierpinski_ifs(vertices=gen_polygon_coordinates(5),n=100000, func=midpoint)
     # points = sierpinski_ifs(vertices=gen_polygon_coordinates(13),n=100000, func=add_coords)
     points = sierpinski_ifs(vertices=gen_polygon_coordinates(3),n=100000)
+    fig, ax = plt.subplots()
+    ax.axis('equal')
     plt.plot(*zip(*points), 'ro', markersize=1)
     plt.show()
