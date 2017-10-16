@@ -4,15 +4,13 @@ import numpy as np
 import argparse
 import os
 from functools import partial
+from scale import scale
 
 
-def scaled_coord(orig_geom, new_geom, coord):
-    return tuple( int((x/n)*o) for x,n,o in zip(coord, new_geom, orig_geom))
 
-def scale(img_array, shape):
+def zoom(img_array, x_factor, y_factor, scale_factor):
     orig_shp = img_array.shape
-    scl = partial(scaled_coord, orig_shp, shape)
-    height, width = shape
+    height, width = orig_shp
     res = np.zeros([height, width, 3])
     for i, row in enumerate(res):
         for j, pixel in enumerate(row):
@@ -24,7 +22,7 @@ def scale(img_array, shape):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Scale image')
+    parser = argparse.ArgumentParser(description='Convert image to grayscale')
     parser.add_argument('filename',  help='name of the image file')
     parser.add_argument('width', type=int, help='width of the image')
     parser.add_argument('height', type=int, help='height of the image')
