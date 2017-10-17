@@ -2,8 +2,11 @@ import math
 from functools import reduce
 from operator import sub
 
-def euclideanDist(va, vb):
+def euclidean_dist(va, vb):
     return math.sqrt(squared_distance(va,vb))
+
+def euclideanDist(va, vb):
+    return euclidean_dist(va, vb)
 
 def squared_distance(va, vb):
     n = max(len(va),len(vb))
