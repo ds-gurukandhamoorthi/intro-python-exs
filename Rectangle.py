@@ -16,7 +16,7 @@ class Rectangle:
 
     def contains_point(self, coord):
         x, y = coord
-        return (abs(x - self._x) <= self._width) and (abs(y - self._y) <= self._height)
+        return (abs(x - self._x) <= self._width/2) and (abs(y - self._y) <= self._height/2)
 
     def corners(self):
         hlf_w = self._width/2
@@ -33,19 +33,20 @@ class Rectangle:
     def contains(self, other):
         return all ( self.contains_point(corner) for corner in other.corners())
 
-    def intersect(self, other):
+    def intersects(self, other):
         hw1, hw2 = self._width/2, other._width/2
         x1, x2 = self._x, other._x
-        if x1 + hw1 >= x2 - hw2 or x2 + hw2 >= x1 - hw1:
-            return True
         hh1, hh2 = self._height/2, other._height/2
         y1, y2 = self._y, other._y
-        if y1 + hh1 >= y2 - hh2 or y2 + hh2 >= x2 - hh2:
-            return True
+        if max(x1 - hw1, x2 - hw2) <= min(x1 + hw1, x2 + hw2):
+            if max(y1 - hh1, y2 - hh2) <= min(y1 + hh1, y2 + hh2):
+                return True
         return False
+            
 
     def get_patch(self):
-        return patches.Rectangle(self.center(), self._width, self._height, facecolor='none', edgecolor='black')
+        lower_left = (self._x - self._width/2, self._y - self._height/2)
+        return patches.Rectangle(lower_left, self._width, self._height, facecolor='none', edgecolor='black')
 
     def draw(self):
         rect = self.get_patch()
@@ -58,20 +59,24 @@ class Rectangle:
         fig.savefig('tes.png')
         plt.show()
 
+    def __str__(self):
+        return str((self._x, self._y, self._width, self._height))
+
 
 
 
 
 if __name__ == "__main__":
-    r = Rectangle(0,0, 4,5)
-    s = Rectangle(6,6,4,4)
+    r = Rectangle(0,0, 6,6)
+    s = Rectangle(6,6,6,5)
     print(r.area())
     print(r.perimeter())
     print(r.contains_point((4,5)))
     print(r.contains_point((4,4)))
     print(r.corners())
     print(r.contains(s))
-    print(r.intersect(s))
+    print(r.intersects(r))
+    print(r.intersects(s))
     fig, ax = plt.subplots()
     ax.axis('equal')
     ax.add_patch(r.get_patch())
