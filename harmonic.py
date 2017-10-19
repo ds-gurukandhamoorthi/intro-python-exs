@@ -25,6 +25,18 @@ def harmonic(n):
     if n < 100:
         return harmonic_sum_small(n)
     return harmonic_sum_large(n)
+
+def harmonic_rec(n):
+    if n == 1:
+        return 1
+    return harmonic_rec(n-1) + 1/n
+
+def harmonic_iter(n):
+    tot = 1
+    for i in range(2, n+1):
+        tot += 1/i
+    return tot
+
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Calculate the nth harmonic number')

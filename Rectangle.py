@@ -62,6 +62,9 @@ class Rectangle:
     def __str__(self):
         return str((self._x, self._y, self._width, self._height))
 
+    def __contains__(self, coord):
+        return self.contains_point(coord)
+
 
 
 
@@ -72,6 +75,7 @@ if __name__ == "__main__":
     print(r.area())
     print(r.perimeter())
     print(r.contains_point((4,5)))
+    print('overloaded', (4,5) in r)
     print(r.contains_point((4,4)))
     print(r.corners())
     print(r.contains(s))
