@@ -28,6 +28,8 @@ def mandelbrot_image_matrix(nb_pxls, start, radius):
             x0 = start.real -(radius/2) +(j*radius/nb_pxls)
             y0 = start.imag -(radius/2) +(i*radius/nb_pxls)
             z0 = complex(x0, y0)
+            # if how_long_within(z0, MAX) > 100:
+            #     print(z0, ' > 100 iters')
             gray = (MAX - how_long_within(z0, MAX))/MAX
             color = (gray, gray, gray)
             mtrx[i,j] = color

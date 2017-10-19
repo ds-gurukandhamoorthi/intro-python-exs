@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, atan, cos, sin, pi, log, exp
 class Complex:
     def __init__(self, re, im):
         self._re = re
@@ -10,15 +10,58 @@ class Complex:
     def im(self):
         return self._im
 
-    def __add__(self,other):
+    def __add__(self, other):
         return Complex(self.re() + other.re(), self.im() + other.im())
 
+    def __sub__(self, other):
+        return self + (-other)
+
     def __mul__(self,other):
+        if type(other) == type(3.1) or type(other)==type(3):
+            return Complex(self.re()*other, self.im()*other)
         return Complex(self.re() * other.re() - self.im() * other.im(), 
                 self.re()*other.im() + self.im()*other.re())
 
+    def __neg__(self):
+        return Complex(-self.re(), -self.im())
+
     def __abs__(self):
         return sqrt(self.re()**2 +self.im()**2)
+
+    def __truediv__(self, other):
+        if type(other) == type(3.1) or type(other)==type(3):
+            return Complex(self.re()/other, self.im()/other)
+        num = self * other.conjugate()
+        den = abs(other)**2
+        return num/den
+
+    def __pow__(self, other):
+        if type(other) in (type(3.1), type(3)):
+            magn = abs(self)**other
+            ang = self.angle()*other
+            return Complex.from_polar(magn, ang)
+        a, b = self.re(), self.im()
+        c, d = other.re(), other.im()
+        common =c*self.angle() + .5*d*log(a**2+b**2) 
+        mult = (abs(self)**(c))*exp(-d*self.angle())
+        r = cos(common)
+        im = sin(common)
+        return Complex(r, im)* mult
+
+    def angle(self):
+        return atan(self.im()/self.re())
+
+    def conjugate(self):
+        return Complex(self.re(), -self.im())
+
+    def nth_roots(self, n):
+        res = [None] * n
+        magn = abs(self) ** (1/n)
+        ang = self.angle()
+        for i in range(n):
+            res[i] = Complex.from_polar(magn, ang/3 + (2*pi*i)/3)
+        return res
+
 
     def __str__(self):
         def is_int(x):
@@ -40,6 +83,9 @@ class Complex:
         if is_zero(im-1) or is_zero(im+1):
             return str(as_int(r)) + sign + 'i'
         return str(as_int(r)) + sign + str(abs(as_int(im))) +'i'
+
+    def from_polar(magn, ang_rad):
+        return Complex(magn*cos(ang_rad), magn*sin(ang_rad))
 
 
     def __getattr__(self, attrname):
