@@ -21,7 +21,7 @@ def color_for(potential):
         return 1
     return res
 
-def create_image(charges):
+def create_image(charges, filename):
     SIZE=100
     potentials = np.zeros((SIZE,SIZE,3))
     for x in range(SIZE):
@@ -30,7 +30,7 @@ def create_image(charges):
             pot = total_potential(coord, charges)
             potentials[SIZE-y-1,x]= color_for(pot)
 
-    mpimg.imsave('potentials.png', potentials)
+    mpimg.imsave(filename, potentials)
 
 def random_Charge(mean, sd):
     x,y = random.random(), random.random()
@@ -69,11 +69,25 @@ if __name__ == "__main__":
     charges = [random_Charge(10,10) for i in range(n)]
     for c in charges:
         print(c)
-    create_image(charges)
+    create_image(charges, 'potentials.png')
     charges = [random_Charge(20,1) for i in range(2)]
     for c in charges:
         print(c)
     print(minimum_potential_point(charges))
+
+
+    #mutable charges exercise
+    n = 10
+    a = [None] * 3
+    a[0] = Charge((.4, .6), 50)
+    a[1] = Charge((.5, .5), -5)
+    a[2] = Charge((.6, .6), 50)
+    for i in range(100):
+        create_image(a, 'mutab_charge'+str(i)+'.png')
+        a[1] += (-2.0)
+
+
+
 
 
 

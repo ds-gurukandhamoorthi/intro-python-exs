@@ -1,13 +1,22 @@
 import sys
 import functools
 
-n = int(sys.argv[1])
 
 
 @functools.lru_cache(maxsize=128)
-def dragon(n, direc='L'):
+def dragon_(n, direc='L'):
     if n == 0:
         return 'F'
     return dragon(n-1, 'L') + direc + dragon(n-1,'R')
 
-print(dragon(n))
+@functools.lru_cache(maxsize=128)
+def dragon(n, direc='-'):
+    if n == 0:
+        return 'F'
+    return dragon(n-1, '-') + direc + dragon(n-1,'+')
+
+
+if __name__ == "__main__":
+    n = int(sys.argv[1])
+    print(dragon_(n))
+    print(dragon(n))
