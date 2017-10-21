@@ -24,7 +24,7 @@ class Turtle:
         lc = matplotlib.collections.LineCollection(self._lines)
         fig, ax = plt.subplots()
         ax.add_collection(lc)
-        # ax.axis('equal')
+        ax.axis('equal')
         ax.set_xlim([0,1])
         ax.set_ylim([0,1])
         plt.axis('off')
