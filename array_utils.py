@@ -1,4 +1,5 @@
 import random
+from mathutils import avg
 
 
 def shuffle(array):
@@ -31,6 +32,17 @@ def group3(lst):
 def split_every(n, array):
     return [array[i:i+n] for i in range(0,len(array),n)]
 #The difference between split_every and group2 is when len(array) is not a multiple of n
+
+#Ramda-js inspired
+def aperture(lst, k):
+    return (lst[i:i+k] for  i in range(len(lst) - (k-1)))
+
+def moving_avg(lst, k):
+    res = [None] * (k-1)
+    ma = []
+    for array in aperture(lst, k):
+        ma += [avg(array)]
+    return res + ma
 
 def int_dict_as_array(dctnry):
     mx = max(dctnry.keys())
