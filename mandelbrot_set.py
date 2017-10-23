@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.image as mpimg
 import argparse
+import random
 
 def mandelbrot_set(n, start):
     z0 = start
@@ -20,7 +21,10 @@ def how_long_within(start, nb_max_iter):
         z = z * z + z0
     return nb_max_iter
 
+
+
 MAX=255
+COLORS = [(random.random(), random.random(), random.random()) for i in range(MAX+1)]
 def mandelbrot_image_matrix(nb_pxls, start, radius):
     mtrx = np.zeros((nb_pxls,nb_pxls,3))
     for i, row in enumerate(mtrx):
@@ -28,10 +32,10 @@ def mandelbrot_image_matrix(nb_pxls, start, radius):
             x0 = start.real -(radius/2) +(j*radius/nb_pxls)
             y0 = start.imag -(radius/2) +(i*radius/nb_pxls)
             z0 = complex(x0, y0)
-            # if how_long_within(z0, MAX) > 100:
-            #     print(z0, ' > 100 iters')
-            gray = (MAX - how_long_within(z0, MAX))/MAX
-            color = (gray, gray, gray)
+            # gray = (MAX - how_long_within(z0, MAX))/MAX
+            # color = (gray, gray, gray)
+            index = MAX - how_long_within(z0, MAX)
+            color = COLORS[index]
             mtrx[i,j] = color
     return mtrx
 

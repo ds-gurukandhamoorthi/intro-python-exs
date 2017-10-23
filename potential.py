@@ -12,18 +12,16 @@ def total_potential(coord, charges):
         res += charge.potential_at(coord)
     return res
 
-def color_for(potential):
-    if potential % 5 == 0:
-        return 0
-    return 1
 
-def color_for__(potential):
+def color_for(potential):
     res= 0.5+(potential/2.0e10/255)
     if res < 0:
         return 1
     if res > 1:
         return 0
-    return int(res/0.2)*res
+    if int(res*255) % 5 == 0:
+        return 0
+    return 1
 
 def color_for_(potential):
     # res= 0.5+(potential/2.0e10/255)
@@ -96,7 +94,7 @@ if __name__ == "__main__":
     a[1] = Charge((.5, .5), -5)
     a[2] = Charge((.6, .6), 50)
     for i in range(100):
-        # create_image(a, 'mutab_charge'+str(i)+'.png')
+        create_image(a, 'mutab_charge'+str(i)+'.png')
         a[1] += (-2.0)
 
 
