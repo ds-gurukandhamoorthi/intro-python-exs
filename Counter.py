@@ -1,6 +1,7 @@
 import sys
 from numpy.random import choice
 
+
 class Counter:
     def __init__(self, name, max_count):
         self._name = name
@@ -28,7 +29,7 @@ class Counter:
 
 if __name__ == "__main__":
     def coin_toss(prob=0.5):
-        probs = [prob, 1-prob]
+        probs = [prob, 1 - prob]
         return choice(range(2), size=1, p=probs)[0]
 
     n = int(sys.argv[1])
@@ -41,6 +42,3 @@ if __name__ == "__main__":
         else:
             tail.increment()
     print(head, tail, head != tail)
-        
-
-

@@ -16,8 +16,8 @@ class Complex:
     def __sub__(self, other):
         return self + (-other)
 
-    def __mul__(self,other):
-        if type(other) == type(3.1) or type(other)==type(3):
+    def __mul__(self, other):
+        if isinstance(other, (int, float)):
             return Complex(self.re()*other, self.im()*other)
         return Complex(self.re() * other.re() - self.im() * other.im(), 
                 self.re()*other.im() + self.im()*other.re())
@@ -29,14 +29,14 @@ class Complex:
         return sqrt(self.re()**2 +self.im()**2)
 
     def __truediv__(self, other):
-        if type(other) == type(3.1) or type(other)==type(3):
+        if isinstance(other, (int, float)):
             return Complex(self.re()/other, self.im()/other)
         num = self * other.conjugate()
         den = abs(other)**2
         return num/den
 
     def __pow__(self, other):
-        if type(other) in (type(3.1), type(3)):
+        if isinstance(other, (int, float)):
             magn = abs(self)**other
             ang = self.angle()*other
             return Complex.from_polar(magn, ang)

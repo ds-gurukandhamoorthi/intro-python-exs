@@ -1,6 +1,5 @@
 import sys
-import random
-from geomutils import POINTS,POINTS3D, add_coords,  neighbours
+from geomutils import POINTS3D, add_coords, neighbours
 from randomutils import oneOf
 
 
@@ -8,7 +7,7 @@ def printMatrix(matr):
     for row in matr:
         for v in row:
             toprint = 1 if v else 0
-            print(toprint,end='')
+            print(toprint, end='')
         print('')
 
 def selfAvoidHappened(n):

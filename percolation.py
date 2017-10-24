@@ -1,34 +1,32 @@
-from matrixutils import rand_bool_matr
-from pprint import pprint
+import sys
+import argparse
+from collections import Counter
+from itertools import product
+import numpy as np
+from matrixutils import rand_bool_matr, transpose, dimen
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import matplotlib.collections
-import argparse
 from rle import rle, rle_to_array
-from collections import Counter
-from matrixutils import transpose, dimen
 from geomutils import neighbours, POINTS
-import sys
-import numpy as np
 from binary_search_function import inverse
 from pynverse import inversefunc
 from printBoolArray import get_dot_shapes_for
-from itertools import product
 
 RESTRICTED_NEIGH_POINTS = ((0,1),(0,-1),(1,0))
 TRIANGULAR_GRID_POINTS = POINTS + ((-1,1),(1,-1))
 
-def valid_neigbours(coord, max_lines,max_col):
+def valid_neigbours(coord, max_lines, max_col):
     def valid(neigh):
-        l,c = neigh
-        return (0<= l < max_lines) and (0 <=c < max_col)
-    neighs=neighbours(coord)
+        l, c = neigh
+        return (0 <= l < max_lines) and (0 <= c < max_col)
+    neighs = neighbours(coord)
     return [neigh for neigh in neighs if valid(neigh)]
 
 
 def flow_vertical_only(open_state):
     res = [open_state[0]]
-    for i,row in enumerate(open_state[1:]):
+    for i, row in enumerate(open_state[1:]):
         prev=res[i]
         res += [[open_prev and open_row for open_prev, open_row in zip(prev, row)]]
     return res
@@ -292,8 +290,8 @@ if __name__ == "__main__":
         success = experiment(n,m, p, nb_trials, triangular_grid=triangular_grid)
         return success/nb_trials
     prob_of_success = [0] * NBINTERV
-    probs = np.linspace(0,1,NBINTERV)
-    res_probs = np.linspace(0,1,NBINTERV)
+    probs = np.linspace(0, 1, NBINTERV)
+    res_probs = np.linspace(0, 1, NBINTERV)
     if args.adaptive == True:
         probs=[]
         for y in res_probs:
@@ -311,12 +309,12 @@ if __name__ == "__main__":
     plt.xlabel('site vacancy probability')
     plt.ylabel('percolation probability')
     colors = ['green' if p > 0.5 else 'red' for p in prob_of_success]
-    plt.scatter(probs,prob_of_success,color=colors)
+    plt.scatter(probs, prob_of_success, color=colors)
     plt.show()
     if args.estimate_threshold:
         print('Estimating threshold value...')
-        a = inversefunc(perc_func, y_values=0.5, domain=[0.3,0.8])
-        b = inverse(perc_func,0.5,0.3,0.8)
+        a = inversefunc(perc_func, y_values=0.5, domain=[0.3, 0.8])
+        b = inverse(perc_func, 0.5, 0.3, 0.8)
         print('Threshold value using pynverse', a)
         print('Threshold value is', b)
             
