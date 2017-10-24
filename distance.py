@@ -2,7 +2,10 @@ import math
 from functools import reduce
 from operator import sub
 
-def euclidean_dist(va, vb):
+def euclidean_dist(va, vb=None):
+    if vb is None:
+        origin = tuple([0] * len(va))
+        return euclidean_dist(va, origin)
     return math.sqrt(squared_distance(va,vb))
 
 def euclideanDist(va, vb):

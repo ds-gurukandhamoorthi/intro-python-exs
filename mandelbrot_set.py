@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.image as mpimg
 import argparse
 import random
+from matplotlib import cm
 
 def mandelbrot_set(n, start):
     z0 = start
@@ -24,7 +25,9 @@ def how_long_within(start, nb_max_iter):
 
 
 MAX=255
-COLORS = [(random.random(), random.random(), random.random()) for i in range(MAX+1)]
+# COLORS = [(random.random(), random.random(), random.random()) for i in range(MAX+1)]
+COLORS = [None] * 256
+COLORS = [ cm.Oranges(i)[0:3] for i in range(256)]
 def mandelbrot_image_matrix(nb_pxls, start, radius):
     mtrx = np.zeros((nb_pxls,nb_pxls,3))
     for i, row in enumerate(mtrx):
