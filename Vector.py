@@ -13,6 +13,8 @@ class Vector:
     def __mul__(self, other):
         if isinstance(other, (int, float)):
             return Vector(tuple(x * other for x in self._coord))
+        if len(self) != len(other):
+            raise Exception('cannot multiply vectors of different dimensions')
         return np.dot(self._coord, other._coord)
 
     def __neg__(self):

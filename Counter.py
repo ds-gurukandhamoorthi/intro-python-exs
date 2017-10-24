@@ -9,6 +9,7 @@ class Counter:
         self._counter = 0
 
     def increment(self):
+        assert self._counter >= 0, 'Negative count detected!'
         if self._counter < self._max_count:
             self._counter += 1
         else:
@@ -28,6 +29,12 @@ class Counter:
 
 
 if __name__ == "__main__":
+    a = Counter('ewrw', 10)
+    a.increment()
+    print(a)
+    a._counter = -1
+    a.increment()
+    print(a)
     def coin_toss(prob=0.5):
         probs = [prob, 1 - prob]
         return choice(range(2), size=1, p=probs)[0]
