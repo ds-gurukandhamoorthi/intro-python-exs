@@ -2,6 +2,8 @@ from int_utils import gcd
 
 class Rational:
     def __init__(self, num, den):
+        if den == 0:
+            raise Exception('Denominator must not be zero')
         sign = -1 if num * den < 0 else 1
         self._num = sign * abs(num//gcd(num,den))
         self._den = abs(den//gcd(num,den))
@@ -34,5 +36,6 @@ if __name__ == "__main__":
     b = Rational(3,-4)
     print(a,b)
     print(abs(a), abs(b))
+    a = Rational(3,0)
 
 

@@ -10,6 +10,13 @@ def gcd(a,b):
         return b
     return gcd(b,a%b)
 
+def bezout(a,b):
+    if a%b == 0:
+        return (b, 0, 1)
+    (d, p, q) = bezout(b, a % b)
+    return (d, q, p - (a // b) * q)
+
+
 def common_multiple(a, b):
     "Calculate the common multiple of two numbers"
     a,b = abs(a), abs(b)
@@ -85,6 +92,7 @@ if __name__ == "__main__":
         print(i, fac, positive_factors(i))
         assert i == product(fac)
     print(gcd(1440,408))
+    print(bezout(42, 12))
 
     
 
