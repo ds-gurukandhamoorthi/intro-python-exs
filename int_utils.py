@@ -4,6 +4,12 @@ from functools import reduce
 
 def gcd(a,b):
     "Calculates the greatest common divisor of two numbers"
+    if (a,b) == (0, 0):
+        raise Exception('Gcd of 0 and 0 is undefined')
+    if a == 0:
+        return b
+    if b == 0 :
+        return a
     a,b = abs(a), abs(b)
     a,b = max(a,b), min(a,b)
     if a%b == 0:
