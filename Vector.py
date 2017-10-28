@@ -9,7 +9,7 @@ class Vector:
         self._coord = tuple(lst)
 
     def __add__(self, other):
-        return add_coords(self, other)
+        return Vector(add_coords(self, other))
 
     def __mul__(self, other):
         if isinstance(other, (int, float)):
@@ -17,6 +17,15 @@ class Vector:
         if len(self) != len(other):
             raise Exception('cannot multiply vectors of different dimensions')
         return np.dot(self._coord, other._coord)
+
+    def __rmul__(self, other):
+        return self * other
+
+    def __truediv__(self, other):
+        if isinstance(other, (int, float)):
+            if other == 0:
+                raise Exception('Division of a Vector by zero')
+            return self * (1/other)
 
     def __neg__(self):
         return self * -1

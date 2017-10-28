@@ -1,6 +1,7 @@
 import sys
 import functools
 from distance import euclidean_dist
+from Vector import Vector
 
 
 @functools.total_ordering
@@ -16,6 +17,12 @@ class Charge:
         if r == 0:
             return float('inf') if q >= 0 else float('-inf')
         return (COULOMB * q) / r
+
+    def potential_vector_at(self, coord): #FIXME:check the calculations before use...
+        magnitude = self.potential_at(coord)
+        delta = Vector(coord) - Vector(self)
+        return magnitude * delta.direction()
+
 
     def increase_charge(self, charge):
         self._charge += charge
@@ -34,6 +41,10 @@ class Charge:
     def __eq__(self, other):
         return self._charge == other._charge
 
+    def __iter__(self):
+        for c in self._coord:
+            yield c
+
 
 if __name__ == "__main__":
     x = float(sys.argv[1])
@@ -44,3 +55,4 @@ if __name__ == "__main__":
     c += .2
     print(c)
     print(c.potential_at((x, y)))
+    print(c.potential_vector_at((x, y)))

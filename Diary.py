@@ -1,4 +1,5 @@
 import datetime
+from itertools import islice
 from Appointment import Appointment
 
 
@@ -27,19 +28,27 @@ class Diary:
             res += str(app) + '\n'
         return res
 
+    def next_appointments(self, n=5):
+        for app in self:
+            print (app)
+            if app > datetime.datetime.now():
+                print('>')
+        return list(islice((app for app in sorted(self) if app > datetime.datetime.now()), n))
+
 
 def main():
-    strt = datetime.datetime(2017, 10, 27, 10, 30, 12)
-    end = datetime.datetime(2017, 10, 27, 11, 30, 12)
+    strt = datetime.datetime(2017, 10, 28, 10, 30, 12)
+    end = datetime.datetime(2017, 10, 28, 11, 30, 12)
     a = Appointment(strt, end, 'Appnt1', 'an example of an appointment')
-    strt = datetime.datetime(2017, 10, 27, 11, 29, 12)
-    end = datetime.datetime(2017, 10, 27, 12, 30, 12)
+    strt = datetime.datetime(2017, 10, 28, 11, 30, 12)
+    end = datetime.datetime(2017, 10, 28, 12, 30, 12)
     b = Appointment(strt, end, 'Appnt2', 'another example of an appointment')
     d = Diary('guru''s')
     print(d)
     d += a
     d += b
-    print(d)
+    print(d, len(d))
+    print(d.next_appointments(1))
 
 
 if __name__ == "__main__":
