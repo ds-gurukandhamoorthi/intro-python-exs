@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import scipy.constants
 from Vector import Vector
 
+
 class Body:
     def __init__(self, position, velocity, mass):
         self._position = position
@@ -22,24 +23,24 @@ class Body:
         magnitude = (G * self._mass * other._mass) / (dist ** 2)
         return magnitude * delta.direction()
 
-    def get_patch(self):
+    def get_patch(self, radius=0.2):
         x, y = self._position
-        return patches.Circle((x,y), 0.2, facecolor='black')
+        return patches.Circle((x, y), radius, facecolor='black')
+
 
 def main():
-    pos = Vector([3,4])
-    velocity = Vector([.5,.1])
+    pos = Vector([3, 4])
+    velocity = Vector([.5, .1])
     body = Body(pos, velocity, 5)
-    body.move(Vector([.2,.1]),2)
+    body.move(Vector([.2, .1]), 2)
     fig, ax = plt.subplots()
     ax.axis('equal')
     ax.add_patch(body.get_patch())
-    ax.set_xlim(-10,10)
-    ax.set_ylim(-10,10)
+    ax.set_xlim(-10, 10)
+    ax.set_ylim(-10, 10)
     plt.savefig('tes.png')
     plt.show()
 
 
 if __name__ == "__main__":
     main()
-
