@@ -23,6 +23,15 @@ class Universe:
     def __iter__(self):
         for body in self._bodies:
             yield body
+    def increase_time(self, dt):
+        forces = [Vector([0,0])] * len(self)
+        for i, bod1 in enumerate(self):
+            for j, bod2 in enumerate(self):
+                if i != j:
+                    forces[i] += bod1.force_from(bod2)
+        for i in range(len(self)):
+            self._bodies[i].move(forces[i], dt)
+        return self
 
     def draw(self):
         fig, ax = plt.subplots()
@@ -38,9 +47,12 @@ class Universe:
 
 def main():
     filename = sys.argv[1]
+    dt = float(sys.argv[2])
     u = Universe(filename)
-    print(len(u))
-    u.draw()
+    while True:
+        u.increase_time(dt)
+        print(len(u))
+        u.draw()
 
 
 if __name__ == "__main__":

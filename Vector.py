@@ -6,6 +6,8 @@ from Rational import Rational
 
 class Vector:
     def __init__(self, lst):
+        if isinstance(lst, int):
+            lst = [0] * lst
         self._coord = tuple(lst)
 
     def __add__(self, other):

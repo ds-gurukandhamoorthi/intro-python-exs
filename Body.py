@@ -15,6 +15,7 @@ class Body:
         # self._velocity = self._velocity + acceleration * dt
         self._velocity += acceleration * dt
         self._position += self._velocity * dt
+        return self
 
     def force_from(self, other):
         G = scipy.constants.G
@@ -23,7 +24,9 @@ class Body:
         magnitude = (G * self._mass * other._mass) / (dist ** 2)
         return magnitude * delta.direction()
 
-    def get_patch(self, radius=0.2):
+    def get_patch(self, radius=None):
+        if radius is None:
+            radius = self._mass/22
         x, y = self._position
         return patches.Circle((x, y), radius, facecolor='black')
 
@@ -31,7 +34,7 @@ class Body:
 def main():
     pos = Vector([3, 4])
     velocity = Vector([.5, .1])
-    body = Body(pos, velocity, 5)
+    body = Body(pos, velocity, 50)
     body.move(Vector([.2, .1]), 2)
     fig, ax = plt.subplots()
     ax.axis('equal')
