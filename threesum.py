@@ -1,6 +1,7 @@
 import sys
 import random
 import timeit
+from itertools import combinations
 def triplets_having_sum_ERRONEOUS(lst, total=0):
     for i, x in enumerate(lst):
         for j, y in enumerate(lst[i+1:]):
@@ -18,6 +19,10 @@ def triplets_having_sum(lst, total=0):
                 if x + y + z == total:
                     yield (x, y, z)
 
+def nuplets_having_sum(n, lst, total = 0):
+    return ( c for c in combinations(lst, n) if sum(c) == total)
+
+
 def rand_ints(n):
     MAX= 1000000
     return [random.randrange(-MAX, MAX+1) for i in range(n)]
@@ -33,6 +38,7 @@ def main():
             lst_ints = ints.read().split('\n')[1:]
             lst_ints = [int(i.strip()) for i in lst_ints if i != '']
             print(list(triplets_having_sum(lst_ints, 0)))
+            # print(list(nuplets_having_sum(3, lst_ints, 0)))
     else:
         for i in range(10):
             nb = 256 * 2**(i)
