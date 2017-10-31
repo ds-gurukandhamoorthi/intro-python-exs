@@ -2,6 +2,12 @@ import math
 from operator import mul
 from functools import reduce
 
+def odd(n):
+    return (n % 2) == 1
+
+def even(n):
+    return (n % 2) == 0
+
 def gcd(a,b):
     "Calculates the greatest common divisor of two numbers"
     if (a,b) == (0, 0):

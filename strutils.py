@@ -2,11 +2,7 @@ import re
 from collections import Counter
 from math import log
 def words(str):
-    def remove_empty_strings(listelems):
-        # return list(filter(lambda x: x != '', listelems))
-        return [s for s in listelems if s != '']
-    res = re.split('\s+',str)
-    return remove_empty_strings(res)
+    return [ word for word in  re.split('\s+',str) if word !='']
 
 
 def is_palindrome(s):
@@ -85,4 +81,6 @@ def metric_entropy(string):
 
 
 
-
+def test_words():
+    assert(words('The quick brown fox') == ['The', 'quick', 'brown', 'fox'])
+    assert(words(' The quick brown fox') == ['The', 'quick', 'brown', 'fox'])

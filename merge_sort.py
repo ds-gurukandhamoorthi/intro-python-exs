@@ -1,6 +1,6 @@
 import sys
 import random
-import re
+from strutils import words
 
 
 def merge(array1, array2):
@@ -46,6 +46,5 @@ if __name__ == "__main__":
     filename = sys.argv[1]
     with open(filename) as inp:
         lines = inp.read().split('\n')
-        words = [word for line in lines for word in re.split(
-            r'\s+', line) if word != '']
-    print(merge_sort(words))
+        wordslist = [word for line in lines for word in words(line)]
+    print(merge_sort(wordslist))
