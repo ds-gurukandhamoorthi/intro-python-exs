@@ -80,24 +80,24 @@ def majority(array):
     count = Counter(array)
     return count.most_common(1)[0][1] > sum(count.values()) / 2
 
+
 def common_element(array1, array2, array3):
     common = Counter(array1) & Counter(array2) & Counter(array3)
     return len(common) >= 1
 
+
 def largest_empty_interval(array):
     def dist(x, y):
         return (abs(x - y), (x, y))
-    dists = starmap(dist, aperture(sorted(array),2))
+    dists = starmap(dist, aperture(sorted(array), 2))
     return min(dists)[1]
+
 
 def prefix_free(array):
     def is_either_prefix(str1, str2):
         return str1.startswith(str2) or str2.startswith(str1)
-    one_prefix_of_another = starmap(is_either_prefix, combinations(array ,2))
+    one_prefix_of_another = starmap(is_either_prefix, combinations(array, 2))
     return not any(one_prefix_of_another)
-
-
-    
 
 
 def main():
@@ -113,13 +113,13 @@ def main():
     b = [-1, 5, 6, 10, 3, -2]
     print(two_sum(b))
     print(three_sum(b))
-    b = [1, 2, 1, 3, 1,-4]
+    b = [1, 2, 1, 3, 1, -4]
     print(majority(b))
     print(common_element(a, b, a))
     print(sorted(b))
     print(list(largest_empty_interval(b)))
-    print(prefix_free(['01','10','0010','1010']))
-    print(prefix_free(['01','10','0010','1110']))
+    print(prefix_free(['01', '10', '0010', '1010']))
+    print(prefix_free(['01', '10', '0010', '1110']))
 
 
 if __name__ == "__main__":

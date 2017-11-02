@@ -14,18 +14,30 @@ class Stack:
     def pop(self):
         if self:
             return self._a.pop()
+        else:
+            raise Exception('Trying to peek into an empty stack')
+
+    def peek(self):
+        if self:
+            return self._a[-1]
+        else:
+            raise Exception('Trying to peek into an empty stack')
+
     def __str__(self):
         return ' '.join(str(val) for val in reversed(self._a))
-            
+
+
 def main():
     s = Stack()
     print(len(s))
     s.push(3)
     s.push(4)
-    # print(s.pop())
-    # print(s.pop())
+    print(s.peek())
+    print(s.pop())
+    print(s.pop())
     if s:
         print(s)
+
+
 if __name__ == "__main__":
     main()
-

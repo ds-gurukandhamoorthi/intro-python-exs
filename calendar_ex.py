@@ -39,7 +39,7 @@ def lines(day_of_start, nb_days):
     return res
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description='print calendar for the given month, year')
     parser.add_argument('year', type=int, help='year')
@@ -54,3 +54,5 @@ if __name__ == "__main__":
     # print(line(1,1,5))
     # print(lines_array(4,30))
     # print(lines(4,30))
+if __name__ == "__main__":
+    main()

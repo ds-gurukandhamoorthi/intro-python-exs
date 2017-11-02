@@ -10,10 +10,10 @@ def evaluate(string):
     operator_stack = LinkedStack()
     tokens = (tok.strip() for tok in words(string))
     for tok in tokens:
-        print(tok)
-        print(operator_stack)
-        print(operand_stack)
-        print(tokens)
+        # print(tok)
+        # print(operator_stack)
+        # print(operand_stack)
+        # print(tokens)
         if tok == '(':
             continue
         if is_operator(tok):
@@ -50,9 +50,6 @@ def evaluate_single(operand_stack, operator_stack):
         print(operands)
         res = builtin(*operands)
     operand_stack.push(res)
-
-
-
 
 
 def main():
