@@ -1,5 +1,7 @@
 import random
-from mathutils import avg
+from math import log
+from mathutils import avg 
+from collections import Counter
 
 
 def shuffle(array):
@@ -50,6 +52,13 @@ def int_dict_as_array(dctnry):
     for i, val in dctnry.items():
         array[i] = val
     return array
+
+def shannon_entropy_list(lst):
+    n = len(lst)
+    occurs = Counter(lst)
+    freq = ((k,(occurs[k]/n)) for k in occurs)
+    probs = (-p * log(p,2) for k,p in freq)
+    return sum(probs)
 
 
 if __name__ == "__main__":

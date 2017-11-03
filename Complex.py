@@ -93,6 +93,12 @@ class Complex:
             return self._re
         if attrname == 'imag':
             return self.im()
+    def __eq__(self, other):
+        return (self._re, self._im) == (other._re, other._im)
+
+    def __hash__(self):
+        return hash(tuple((self._re, self._im)))
+
 
 
 if __name__ == "__main__":
@@ -104,5 +110,6 @@ if __name__ == "__main__":
     print(c3.re(), c3.im())
     print(c1, c1.real, c1.imag)
     print(Complex(3,-1), Complex(3.0,-1.0), Complex(3,0), Complex(0,3), Complex(3.0,1.0), Complex(0,0))
+    print(c1 == c1)
 
 

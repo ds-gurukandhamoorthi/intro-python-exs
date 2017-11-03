@@ -1,6 +1,7 @@
 import re
 from collections import Counter
 from math import log
+from array_utils import shannon_entropy_list
 def words(str):
     return [ word for word in  re.split('\s+',str) if word !='']
 
@@ -68,11 +69,7 @@ def substring_prefix_suffix(prefix, suffix, string):
     return res
 
 def shannon_entropy(string):
-    n = len(string)
-    occurs = Counter(string)
-    freq = ((k,(occurs[k]/n)) for k in occurs)
-    probs = (-p * log(p,2) for k,p in freq)
-    return sum(probs)
+    return shannon_entropy_list(list(string))
 
 def metric_entropy(string):
     return shannon_entropy(string)/len(string)

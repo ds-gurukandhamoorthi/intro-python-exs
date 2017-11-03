@@ -1,4 +1,7 @@
 from TreeNode import TreeNode
+from itertools import starmap
+
+
 class BinarySearchTree:
     def __init__(self):
         self._root = None
@@ -56,6 +59,11 @@ class BinarySearchTree:
     def items(self):
         yield from self._inorder_pair(self._root)
 
+    def __len__(self):
+        return sum (True for i in self)
+
+    
+
     def __iter__(self):
         yield from self._inorder(self._root)
 
@@ -65,10 +73,17 @@ class BinarySearchTree:
                 return self._min(node.left)
             else:
                 return node.key
+    def _floor(self, node, key0):
+        if node:
+            if node.key > key0:
+                return self._floor(node.left, key0)
+            if node.key <= key0:
+                return node.key
+    def floor(self, key0):
+        return self._floor(self._root, key0)
 
     def min(self):
         return self._min(self._root)
-
 
     def _within_inclusive(self, node, minkey, maxkey):
         if node:
@@ -80,13 +95,10 @@ class BinarySearchTree:
     def within_inclusive(self, minkey, maxkey):
         yield from self._within_inclusive(self._root, minkey, maxkey)
 
-
-
-            
-
-
-
-
+    def __str__(self):
+        def key_pair(k, v):
+            return '%s: %s' % (k, v)
+        return '{' + ', '.join(starmap(key_pair, self.items())) + '}'
 
 
 
@@ -101,8 +113,12 @@ if __name__ == "__main__":
     print(tuple(bst))
     print(min(bst))
     print(bst.min())
-    print(list(bst.within_inclusive('a','mame')))
+    print(list(bst.within_inclusive('a', 'mame')))
     for k, v in bst.items():
         print(k, v)
-    print (' %s' % list(bst.items()))
-
+    print(' %s' % list(bst.items()))
+    print(bst)
+    print(bst.floor('name'))
+    print(len(tuple(bst)))
+    print(len(bst))
+    

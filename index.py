@@ -31,7 +31,7 @@ def index_of_words(filename):
 
 def main():
     filename = sys.argv[1]
-    index = index_of_words_(filename)
+    index = index_of_words(filename)
     for word in index:
         print(word, index[word])
 
