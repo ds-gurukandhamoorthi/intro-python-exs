@@ -18,11 +18,11 @@ class Charge:
             return float('inf') if q >= 0 else float('-inf')
         return (COULOMB * q) / r
 
-    def potential_vector_at(self, coord): #FIXME:check the calculations before use...
+    # FIXME:check the calculations before use...
+    def potential_vector_at(self, coord):
         magnitude = self.potential_at(coord)
         delta = Vector(coord) - Vector(self)
         return magnitude * delta.direction()
-
 
     def increase_charge(self, charge):
         self._charge += charge
@@ -42,8 +42,7 @@ class Charge:
         return self._charge == other._charge
 
     def __iter__(self):
-        for c in self._coord:
-            yield c
+        yield from self._coord
 
 
 if __name__ == "__main__":

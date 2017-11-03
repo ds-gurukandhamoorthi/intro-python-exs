@@ -1,6 +1,5 @@
 from itertools import dropwhile
 import toolz
-from Rational import Rational
 from horner import horner
 
 
@@ -82,14 +81,11 @@ class Polynomial:
         return Polynomial(tuple(series), human_friendly=False)
 
     def integrate(self):
-        series = (0,) + tuple(c/(i+1) for i, c in enumerate(self))
+        series = (0,) + tuple(c / (i + 1) for i, c in enumerate(self))
         return Polynomial(series, human_friendly=False)
 
     def has_complex_coeffs(self):
-        return any (isinstance(c, complex) for c in self)
-
-
-
+        return any(isinstance(c, complex) for c in self)
 
     # Basic Comparisons
     def __eq__(self, other):
@@ -97,8 +93,7 @@ class Polynomial:
 
     # List like operations
     def __iter__(self):
-        for c in self._coeffs:
-            yield c
+        yield from self._coeffs
 
     def __getitem__(self, index):
         if isinstance(index, int) and index > self.degree:
@@ -108,7 +103,7 @@ class Polynomial:
     # Basic Conversions
     def __str__(self):
         if self.has_complex_coeffs():
-                return ' + '.join(str(c) + '×X^' + str(i)  for i, c in enumerate(self._coeffs))
+            return ' + '.join(str(c) + '×X^' + str(i) for i, c in enumerate(self._coeffs))
         terms = []
         signs = []
         for i, c in enumerate(self):
@@ -140,11 +135,12 @@ class Polynomial:
 def test_sum():
     p = Polynomial((2, 5, 3, 1))
     q = Polynomial((6, 3, 7))
-    assert (p+q)._coeffs == Polynomial((2, 11, 6, 8))._coeffs
+    assert (p + q)._coeffs == Polynomial((2, 11, 6, 8))._coeffs
+
 
 if __name__ == "__main__":
     p = Polynomial((2, 5, 3, 1))
-    print(p, p.differentiate(), p.differentiate().integrate(), sep = '|')
+    print(p, p.differentiate(), p.differentiate().integrate(), sep='|')
     q = Polynomial((6, 3, 7))
     print(q, p, p.compose(q), sep='|')
     print(p)
@@ -157,20 +153,20 @@ if __name__ == "__main__":
     print(p, q, p * q, sep='|')
     # q = Polynomial((Rational(1, 2), Rational(2, 3)))
     print(q, p, p.compose(q), sep='|')
-    g = Polynomial((2,-4))
-    h = Polynomial((-4,3))
+    g = Polynomial((2, -4))
+    h = Polynomial((-4, 3))
     print(g(h), h(g))
     g_ = Polynomial((1, -2))
-    print(g == (g_*2))
+    print(g == (g_ * 2))
     print(g[1:])
-    g = Polynomial((2+1j,-4+1j))
-    h = Polynomial((-4+1j,3+1j))
+    g = Polynomial((2 + 1j, -4 + 1j))
+    h = Polynomial((-4 + 1j, 3 + 1j))
     # g = Polynomial((Rational(4,3), Rational(5,2)))
     # h = Polynomial((Rational(14,17), Rational(11,3)))
     # g = Polynomial((0.3,0.4))
     # h = Polynomial((0.6,0.8))
-    print((g+h)._coeffs)
-    print((g*h)._coeffs)
+    print((g + h)._coeffs)
+    print((g * h)._coeffs)
     print(g.differentiate()._coeffs)
     print(g.integrate())
     print(g(1))

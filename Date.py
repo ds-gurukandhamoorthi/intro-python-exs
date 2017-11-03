@@ -23,8 +23,7 @@ class Date:
         return int(self) - int(other)
 
     def __iter__(self):
-        for x in (self._year, self._month, self._day):
-            yield x
+        yield from (self._year, self._month, self._day)
 
     def __eq__(self, other):
         return tuple(self) == tuple(other)
@@ -42,7 +41,7 @@ class Date:
 if __name__ == "__main__":
     d1 = Date(1983, 1, 3)
     d2 = Date(2017, 10, 26)
-    # print(d1, tuple(d1), d1 > d2, min(d1,d2), d1-d2)
+    print(d1, tuple(d1), d1 > d2, min(d1,d2), d1-d2)
     print(d1 - d2)
     print(d1.day_of())
     print(d1.sub(d2))

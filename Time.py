@@ -7,8 +7,7 @@ class Time:
         self._seconds = seconds
 
     def __iter__(self):
-        for x in (self._hours, self._minutes, self._seconds):
-            yield x
+        yield from (self._hours, self._minutes, self._seconds)
 
     def __str__(self):
         return '%s:%s:%s' % tuple(self)

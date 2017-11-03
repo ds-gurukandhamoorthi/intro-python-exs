@@ -9,8 +9,7 @@ class Diary:
         self._list_appointments = []
 
     def __iter__(self):
-        for app in self._list_appointments:
-            yield app
+        yield from self._list_appointments
 
     def __len__(self):
         return len(self._list_appointments)
@@ -30,7 +29,7 @@ class Diary:
 
     def next_appointments(self, n=5):
         for app in self:
-            print (app)
+            print(app)
             if app > datetime.datetime.now():
                 print('>')
         return list(islice((app for app in sorted(self) if app > datetime.datetime.now()), n))

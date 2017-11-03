@@ -73,8 +73,7 @@ class Rational:
         return str(self.num) + '/' + str(self.den)
 
     def __iter__(self):
-        for n in (self.num, self.den):
-            yield n
+        yield from (self.num, self.den)
 
 
 if __name__ == "__main__":

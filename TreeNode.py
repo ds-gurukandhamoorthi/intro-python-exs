@@ -1,7 +1,6 @@
-class Node:
-    def __init__(self, key, val, ref_next, ref_prev):
+class TreeNode:
+    def __init__(self, key, val, left=None, right=None):
         self.key = key
         self.val = val
-        self.ref_next = ref_next
-        self.ref_prev = ref_prev
-
+        self.left = left
+        self.right = right

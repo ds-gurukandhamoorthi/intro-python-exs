@@ -11,8 +11,7 @@ class Particle:
         return str(self._position) + str(self._velocity)
 
     def __iter__(self):
-        for coord, veloc in zip(self._position, self._velocity):
-            yield coord, veloc
+        yield from zip(self._position, self._velocity)
 
     def kinetic_energy(self):
         return 0.5 * self._mass * sum(v**2 for v in self._velocity)

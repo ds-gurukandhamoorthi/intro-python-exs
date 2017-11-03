@@ -21,10 +21,10 @@ class Universe:
         return len(self._bodies)
 
     def __iter__(self):
-        for body in self._bodies:
-            yield body
+        yield from self._bodies
+
     def increase_time(self, dt):
-        forces = [Vector([0,0])] * len(self)
+        forces = [Vector([0, 0])] * len(self)
         for i, bod1 in enumerate(self):
             for j, bod2 in enumerate(self):
                 if i != j:
@@ -40,7 +40,7 @@ class Universe:
         ax.set_xlim(-r, r)
         ax.set_ylim(-r, r)
         for body in self:
-            ax.add_patch(body.get_patch(radius=r/25))
+            ax.add_patch(body.get_patch(radius=r / 25))
         plt.savefig('tes.png')
         plt.show()
 
