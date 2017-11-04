@@ -1,7 +1,7 @@
 import re
 from collections import Counter
 from math import log
-from array_utils import shannon_entropy_list
+from array_utils import shannon_entropy_list, aperture
 def words(str):
     return [ word for word in  re.split('\s+',str) if word !='']
 
@@ -73,6 +73,9 @@ def shannon_entropy(string):
 
 def metric_entropy(string):
     return shannon_entropy(string)/len(string)
+
+def unique_substrings(string, length):
+    return set(list(aperture(string, length)))
 
 
 

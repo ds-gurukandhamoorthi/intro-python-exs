@@ -17,6 +17,9 @@ class Genome:
     def __getitem__(self, index):
         if isinstance(index, int):
             return self._sequence[index: index+3]
+    def __iter__(self):
+        for i in range(0, len(self._sequence)//3):
+            yield self[i]
 
     def base_at(self, index):
         return self._sequence[index]
@@ -28,5 +31,6 @@ if __name__ == "__main__":
     a = 'ATGCGCCTGCGTCTGTACTAG'
     g = Genome(a)
     print(g, g.base_at(3), g.is_potential_gene(), g[0])
+    print(tuple(g))
 
         
