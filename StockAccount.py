@@ -6,12 +6,11 @@ from collections import Counter
 class StockAccount:
     def __init__(self, filename):
         with open(filename, 'r') as account_data:
-            lines = account_data.read().split('\n')
-            self._holder = lines[0]
-            self._cash_on_hand = float(lines[1])
-            self._nb_shares = int(lines[2])
+            self._holder = next(account_data)
+            self._cash_on_hand = float(next(account_data))
+            self._nb_shares = int(next(account_data))
             self._shares = Counter()
-            for line in lines[3:3+self._nb_shares]:
+            for line in account_data:
                 tem = re.split('[ ]+', line)
                 nb = int(tem[-2])
                 symb = tem[-1]

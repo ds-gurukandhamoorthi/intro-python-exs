@@ -42,7 +42,6 @@ if __name__ == "__main__":
     a = [random.randrange(10) for i in range(100)]
     assert insertion_sort(a) == sorted(a)
     filename = sys.argv[1]
-    with open(filename) as inp:
-        lines = inp.read().split('\n')
+    with open(filename) as lines:
         wordslist = [word for line in lines for word in words(line)]
     print(insertion_sort(wordslist))

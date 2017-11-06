@@ -8,11 +8,13 @@ from Vector import Vector
 class Universe:
     def __init__(self, filename):
         with open(filename) as univ:
-            lines = univ.read().split('\n')
-            n = int(lines[0])
-            self._radius = float(lines[1])
+            # lines = univ.read().split('\n')
+            n = int(next(univ))
+            self._radius = float(next(univ))
             self._bodies = [None] * n
-            for i, line in enumerate(lines[2:n + 2]):
+            for i, line in enumerate(univ):
+                if i >= n:
+                    break
                 x, y, vx, vy, m = [float(x)
                                    for x in re.split(r'\s+', line) if x != '']
                 self._bodies[i] = Body(Vector([x, y]), Vector([vx, vy]), m)
