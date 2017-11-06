@@ -1,5 +1,6 @@
 import datetime
 import functools
+from builtins import property
 
 
 @functools.total_ordering
@@ -10,13 +11,8 @@ class Appointment:
         self._title = title
         self._details = details
 
-    @property
-    def start(self):
-        return self._start
-
-    @property
-    def end(self):
-        return self._end
+    start = property(lambda o: o._start)
+    end = property(lambda o: o._end)
 
     def __sub__(self, other):
         return self.start - other.start

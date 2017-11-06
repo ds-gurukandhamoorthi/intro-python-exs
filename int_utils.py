@@ -68,7 +68,7 @@ def is_prime(n):
 
 def count_primes(n):
     nbPrimes = 1 if n >= 2 else 0
-    return nbPrimes + sum(True for i in range(3, n, 2) if is_prime(i))
+    return nbPrimes + sum(1 for i in range(3, n, 2) if is_prime(i))
 
 
 def prime_factors(n):

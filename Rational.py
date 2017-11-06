@@ -1,5 +1,6 @@
 import functools
 from int_utils import gcd
+from builtins import property
 
 
 @functools.total_ordering
@@ -11,13 +12,8 @@ class Rational:
         self._num = sign * abs(num // gcd(num, den))
         self._den = abs(den // gcd(num, den))
 
-    @property
-    def den(self):
-        return self._den
-
-    @property
-    def num(self):
-        return self._num
+    num = property(lambda o : o._num)
+    den = property(lambda o : o._den)
 
     # BASIC ARITHMETIC
     def __add__(self, other):
@@ -87,4 +83,5 @@ if __name__ == "__main__":
     print(a, b)
     print(abs(a), abs(b))
     print(a < b, b <= a, tuple(a), tuple(b))
+    print(a.num, a.den)
     # a = Rational(3,0)
