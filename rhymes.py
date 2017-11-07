@@ -1,7 +1,7 @@
 from strutils import words
 
 def reverse_strings(array):
-    return (''.join(reversed(string)) for string in array)
+    yield from (''.join(reversed(string)) for string in array)
 
 def main():
     filename = '/usr/share/dict/words'

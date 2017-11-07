@@ -46,7 +46,8 @@ def mystery(s):
 
 def substrings_win(s, window):
     assert window > 0
-    return (s[i:i+window] for i in  range(len(s)-window+1))
+    # return (s[i:i+window] for i in  range(len(s)-window+1))
+    yield from (''.join(chars) for chars in aperture(s, window))
 
 def substrings(s):
     n = len(s)
@@ -59,7 +60,7 @@ def substrings(s):
 
 def possible_genes(s, min_length):
     assert min_length > 0
-    return (s[i:] for i in  range(len(s)-min_length+1))
+    yield from (s[i:] for i in  range(len(s)-min_length+1))
 
 def substring_prefix_suffix(prefix, suffix, string):
     res = []
@@ -75,7 +76,7 @@ def metric_entropy(string):
     return shannon_entropy(string)/len(string)
 
 def unique_substrings(string, length):
-    return set(list(aperture(string, length)))
+    return set(list(substrings_win(string, length)))
 
 
 

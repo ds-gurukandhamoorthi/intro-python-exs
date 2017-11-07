@@ -12,34 +12,40 @@ from itertools import product
 import random
 
 
-
 def flow_hash(open_state):
     n = len(open_state)
     coords = list(product(range(n), range(n), range(n)))
     remaining = coords
     res = {}
+
     def valid(neigh):
-        r,c, z = neigh # z = depth as in zorder
-        return (0<= r < n) and (0 <=c < n) and (0 <= z <n)
+        r, c, z = neigh  # z = depth as in zorder
+        return (0 <= r < n) and (0 <= c < n) and (0 <= z < n)
+
     def get(coord):
         if valid(coord):
             return res.get(coord, None)
         return None
+
     def set(coord, value):
         if valid(coord):
             res[coord] = value
+
     def any_true_neigh(coord):
         neighs = neighbours(coord, points=POINTS3D)
         for neigh in neighs:
             if get(neigh) == True:
                 return True
         return None
+
     def nb_false_neighbours(coord):
         return sum([get(neigh) == False for neigh in neighbours(coord, points=POINTS3D)])
+
     def nb_valid_neigbours(coord):
         return sum([valid(neigh) for neigh in neighbours(coord, points=POINTS3D)])
+
     def calc_for(coord):
-        i, j,k = coord
+        i, j, k = coord
         if i == 0:
             set(coord, open_state[i][j][k])
             return
@@ -48,7 +54,7 @@ def flow_hash(open_state):
             return
         if any_true_neigh(coord) == True:
             set(coord, True)
-            return 
+            return
         if nb_false_neighbours(coord) == nb_valid_neigbours(coord):
             set(coord, False)
             return
@@ -58,7 +64,7 @@ def flow_hash(open_state):
             calc_for(coord)
         remaining = [coord for coord in coords if coord not in res.keys()]
         if not(prev_rem > len(remaining)):
-           break 
+            break
     # print('remaining', remaining)
     # print(remaining[0])
     # nes = neighbours(remaining[0], points=POINTS3D)
@@ -68,37 +74,42 @@ def flow_hash(open_state):
     #     print(n, res.get(n,None))
     return as_matrix3d(res, n)
 
-def as_matrix3d(hashed_coord,n):
-    res = np.full([n,n,n], False, np.bool_)
+
+def as_matrix3d(hashed_coord, n):
+    res = np.full([n, n, n], False, np.bool_)
     for coord in hashed_coord:
         res[coord] = hashed_coord[coord]
     return res
 
-    
 
 def percolates(open_state):
     flw = flow_hash(open_state)
     return flw[-1].any()
 
+
 def experiment(n, prob, nb_trials):
     success = 0
-    return sum([percolates(rand_bool_matrix_3d(n,n,n,prob)) for i in range(nb_trials)])
+    return sum([percolates(rand_bool_matrix_3d(n, n, n, prob)) for i in range(nb_trials)])
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Percolation for a random cube')
+def main():
+    parser = argparse.ArgumentParser(
+        description='Percolation for a random cube')
     parser.add_argument('n', type=int, help='number of rows')
-    parser.add_argument('p', type=float, help='probability for the cell be True in the matrix cube')
-    parser.add_argument('--estimate-threshold', help='estimate the threshold of percolates', action='store_true')
-    parser.add_argument('--nb-trials', type=int, help='number of times the experiment must be carried out')
+    parser.add_argument(
+        'p', type=float, help='probability for the cell be True in the matrix cube')
+    parser.add_argument('--estimate-threshold',
+                        help='estimate the threshold of percolates', action='store_true')
+    parser.add_argument('--nb-trials', type=int,
+                        help='number of times the experiment must be carried out')
     args = parser.parse_args()
     n = args.n
     p = args.p
     nb_trials = args.nb_trials
 
-    matr = rand_bool_matrix_3d(n,n,n,p)
+    matr = rand_bool_matrix_3d(n, n, n, p)
     # pprint(matr)
-    f=flow_hash(matr)
+    f = flow_hash(matr)
     # pprint(f)
     # print(percolates(matr))
     # pprint(matr)
@@ -109,32 +120,32 @@ if __name__ == "__main__":
 
     def perc_func(p):
         success = experiment(n, p, nb_trials)
-        return success/nb_trials
-
+        return success / nb_trials
 
     NBINTERV = 11
     prob_of_success = [0] * NBINTERV
-    probs = np.linspace(0,1,NBINTERV)
+    probs = np.linspace(0, 1, NBINTERV)
     for i, p in enumerate(probs):
         success = experiment(n, p, nb_trials)
-        prob_of_success[i] = success /nb_trials
-        print(success, nb_trials, success/nb_trials)
+        prob_of_success[i] = success / nb_trials
+        print(success, nb_trials, success / nb_trials)
     print(prob_of_success)
     fig, ax = plt.subplots()
-    ax.set_xlim(0,1)
-    ax.set_ylim(0,1)
-    plt.title('Probability of percolation nb_sites :' + str(n) + '³' + ' nb_trials: ' + str(nb_trials))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    plt.title('Probability of percolation nb_sites :' +
+              str(n) + '³' + ' nb_trials: ' + str(nb_trials))
     plt.xlabel('site vacancy probability')
     plt.ylabel('percolation probability')
-    colors = ['green' if p > 0.5 else 'red' for p in prob_of_success]
-    plt.scatter(probs,prob_of_success,color=colors)
+    success_color = {True: 'green', False: 'red'}
+    colors = [success_color[p > 0.5] for p in prob_of_success]
+    plt.scatter(probs, prob_of_success, color=colors)
     plt.show()
     if args.estimate_threshold:
         print('Estimating threshold value...')
-        a = inversefunc(perc_func, y_values=0.5, domain=[0.3,0.8])
-        b = inverse(perc_func,0.5,0.3,0.8)
+        a = inversefunc(perc_func, y_values=0.5, domain=[0.3, 0.8])
+        b = inverse(perc_func, 0.5, 0.3, 0.8)
         print('Threshold value using pynverse', a)
         print('Threshold value is', b)
-
-
-
+if __name__ == "__main__":
+    main()

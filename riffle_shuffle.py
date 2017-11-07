@@ -36,7 +36,7 @@ def nb_head2(nb_max):
     # probCum = cumulateSum(binomial_coefficients(nb_max))
     probCum = numpy.cumsum(binomial_coefficients(nb_max))
     prob = random.random()
-    return bisect.bisect(probCum, prob)
+    return bisect.bisect_left(probCum, prob)
     # for i,cumProb in enumerate(probCum):
     #     if cumProb >= prob:
     #         return i 

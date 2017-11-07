@@ -60,7 +60,7 @@ def calcArea(box):
 
 def limitlessSelfAvoid():
     def filterNeighboursVisitable(neighs):
-        return [point for point in neighs if point not in visited]
+        return list(set(neighs)-visited)
     coord = (0,0)
     steps = 0
     visited = set()
@@ -75,7 +75,7 @@ def limitlessSelfAvoid():
 
 def limitlessSelfAvoid3D():
     def filterNeighboursVisitable(neighs):
-        return [point for point in neighs if point not in visited]
+        return list(set(neighs)-visited)
     coord = (0,0,0)
     steps = 0
     visited = set() 
@@ -127,7 +127,7 @@ if __name__ == "__main__":
    print(boundingRectangle(((0,0),(5,5)),(-3,9)))
    print(calcArea(((0,0),(5,5))))
    print(calcArea(((1,1),(5,5))))
-   print(limitlessSelfAvoid())
+   print('limitlessSelfAvoid' , limitlessSelfAvoid())
 
    nbTrials = 50
    for i in range(0,nbTrials):

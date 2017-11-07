@@ -117,7 +117,8 @@ def main():
     print(majority(b))
     print(common_element(a, b, a))
     print(sorted(b))
-    print(list(largest_empty_interval(b)))
+    b = [-1, 5, 6, 10, 3, -2]
+    print(b, 'largest empty interval', list(largest_empty_interval(b)))
     print(prefix_free(['01', '10', '0010', '1010']))
     print(prefix_free(['01', '10', '0010', '1110']))
 
