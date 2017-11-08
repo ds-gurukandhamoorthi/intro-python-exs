@@ -36,9 +36,18 @@ def group3(lst):
     return zip(lst[0::3], lst[1::3], lst[2::3])
 
 
-def split_every(n, array):
+def split_every_(n, array):
     return [array[i:i + n] for i in range(0, len(array), n)]
 # The difference between split_every and group2 is when len(array) is not a multiple of n
+
+def split_every(n, iterable):
+    if not isinstance(iterable, Iterator):
+        iterable = iter(iterable)
+    while True:
+        res = tuple(islice(iterable, n))
+        if not res:
+            return
+        yield res
 
 # Ramda-js inspired
 

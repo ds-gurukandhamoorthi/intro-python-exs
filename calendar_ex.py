@@ -24,7 +24,7 @@ def calendar(year, month):
 
 def lines_array(offset=0, number_of_days=30):
     days = [0] * offset + list(range(1, number_of_days + 1))
-    return split_every(7, days)
+    return list(split_every(7, days))
 
 
 def lines(day_of_start, nb_days):
