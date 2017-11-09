@@ -1,8 +1,8 @@
 import random
 from math import log
-from mathutils import avg
 from collections import Counter, Iterator
 from itertools import islice
+from mathutils import avg
 
 
 def shuffle(array):
