@@ -7,24 +7,24 @@ d = int(sys.argv[4])
 e = int(sys.argv[5])
 
 if a > b:
-    a, b = b,a
-    print(a,b,c,d,e)
+    a, b = b, a
+    print(a, b, c, d, e)
 if c > d:
-    c, d = d,c
-    print(a,b,c,d,e)
+    c, d = d, c
+    print(a, b, c, d, e)
 if b > d:
-    b, d = d,b
-    print(a,b,c,d,e)
+    b, d = d, b
+    print(a, b, c, d, e)
 if a > c:
-    a, c = c,a
-    print(a,b,c,d,e)
+    a, c = c, a
+    print(a, b, c, d, e)
 if b > c:
-    b, c = c,b
-    print(a,b,c,d,e)
+    b, c = c, b
+    print(a, b, c, d, e)
 
-if e>=d:
+if e >= d:
     print(c)
-elif e>=c:
+elif e >= c:
     print(c)
-elif e<=b:
+elif e <= b:
     print(b)

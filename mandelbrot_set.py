@@ -4,6 +4,7 @@ import argparse
 import random
 from matplotlib import cm
 
+
 def mandelbrot_set(n, start):
     z0 = start
     if n == 0:
@@ -12,6 +13,7 @@ def mandelbrot_set(n, start):
     for i in range(n):
         z = z * z + z0
     return z
+
 
 def how_long_within(start, nb_max_iter):
     z0 = start
@@ -23,40 +25,41 @@ def how_long_within(start, nb_max_iter):
     return nb_max_iter
 
 
-
-MAX=255
+MAX = 255
 # COLORS = [(random.random(), random.random(), random.random()) for i in range(MAX+1)]
 COLORS = [None] * 256
-COLORS = [ cm.Oranges(i)[0:3] for i in range(256)]
+COLORS = [cm.Oranges(i)[0:3] for i in range(256)]
+
+
 def mandelbrot_image_matrix(nb_pxls, start, radius):
-    mtrx = np.zeros((nb_pxls,nb_pxls,3))
+    mtrx = np.zeros((nb_pxls, nb_pxls, 3))
     for i, row in enumerate(mtrx):
         for j, pxl in enumerate(row):
-            x0 = start.real -(radius/2) +(j*radius/nb_pxls)
-            y0 = start.imag -(radius/2) +(i*radius/nb_pxls)
+            x0 = start.real - (radius / 2) + (j * radius / nb_pxls)
+            y0 = start.imag - (radius / 2) + (i * radius / nb_pxls)
             z0 = complex(x0, y0)
             # gray = (MAX - how_long_within(z0, MAX))/MAX
             # color = (gray, gray, gray)
             index = MAX - how_long_within(z0, MAX)
             color = COLORS[index]
-            mtrx[i,j] = color
+            mtrx[i, j] = color
     return mtrx
 
-            
-            # mtrx[i,j] = 
+    # mtrx[i,j] =
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Draw mandelbrot set')
-    parser.add_argument('nb_pixels', type=int, help='size in pixels of the square image')
+    parser.add_argument('nb_pixels', type=int,
+                        help='size in pixels of the square image')
     parser.add_argument('xc', type=float, help='real part of the start')
     parser.add_argument('yc', type=float, help='imaginary part of the start')
-    parser.add_argument('radius', type=float, help='enter smaller numbers to zoom near')
+    parser.add_argument('radius', type=float,
+                        help='enter smaller numbers to zoom near')
     args = parser.parse_args()
     nb_pixels = args.nb_pixels
     xc = args.xc
-    yc = args.yc 
+    yc = args.yc
     radius = args.radius
-    res = mandelbrot_image_matrix(nb_pixels, complex(xc,yc),radius) 
+    res = mandelbrot_image_matrix(nb_pixels, complex(xc, yc), radius)
     mpimg.imsave('tes.png', res)
-        
-

@@ -45,7 +45,7 @@ class Complex:
         a, b = self.re(), self.im()
         c, d = other.re(), other.im()
         common = c * self.angle() + .5 * d * log(a**2 + b**2)
-        mult = (abs(self)**(c)) * exp(-d * self.angle())
+        mult = (abs(self)**c) * exp(-d * self.angle())
         r = cos(common)
         im = sin(common)
         return Complex(r, im) * mult
