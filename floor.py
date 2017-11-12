@@ -43,8 +43,7 @@ def closest_pair_(array):
 
 
 def sum_nuplets(array, n):
-    def sum_and_tuple(tupl):
-        return (sum(tupl), tupl)
+    sum_and_tuple = lambda tupl: (sum(tupl), tupl)
     return map(sum_and_tuple, combinations(array, n))
 
 
@@ -94,8 +93,7 @@ def largest_empty_interval(array):
 
 
 def prefix_free(array):
-    def is_either_prefix(str1, str2):
-        return str1.startswith(str2) or str2.startswith(str1)
+    is_either_prefix = lambda str1, str2: str1.startswith(str2) or str2.startswith(str1)
     one_prefix_of_another = starmap(is_either_prefix, combinations(array, 2))
     return not any(one_prefix_of_another)
 
