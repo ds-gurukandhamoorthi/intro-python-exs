@@ -1,7 +1,12 @@
 import math
+from collections import Iterator
+from itertools import tee
 
 
 def avg(array):
+    if isinstance(array, Iterator):
+        clone1, clone2 = tee(array,2)
+        return sum(clone1)/sum( 1 for _ in clone2)
     return sum(array) / len(array)
 
 
@@ -13,7 +18,7 @@ def variance(array):
     m = avg(array)
     totalSquared = 0
     for val in array:
-        totalSquared += (val - m) ** 2
+        totalSquared += (val - m)**2
     return totalSquared / len(array)
 
 
