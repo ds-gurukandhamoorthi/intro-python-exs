@@ -1,6 +1,7 @@
 import printBoolArray
 from printBoolArray import showMatrix
 from operator import not_
+from itertools import chain
 
 
 def hadamard(n):
@@ -15,20 +16,10 @@ def hadamard(n):
 
 
 def hstack(ma, mb):
-    res = []
-    for rowa, rowb in zip(ma, mb):
-        res += [rowa + rowb]
-    return res
-
+    return [rowa + rowb for rowa, rowb in zip(ma, mb)]
 
 def vstack(ma, mb):
-    res = []
-    for row in ma:
-        res += [row]
-    for row in mb:
-        res += [row]
-    return res
-
+    return [row for row in chain(ma, mb)]
 
 def mapFuncMatrix(func, m):
     return [[func(x) for x in row] for row in m]
