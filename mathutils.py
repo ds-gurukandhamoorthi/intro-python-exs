@@ -1,12 +1,13 @@
 import math
 from collections import Iterator
 from itertools import tee
+from funcy import ilen
 
 
 def avg(array):
     if isinstance(array, Iterator):
-        clone1, clone2 = tee(array,2)
-        return sum(clone1)/sum( 1 for _ in clone2)
+        clone1, clone2 = tee(array, 2)
+        return sum(clone1) / ilen(clone2)
     return sum(array) / len(array)
 
 

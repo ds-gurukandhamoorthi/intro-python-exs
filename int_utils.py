@@ -1,6 +1,7 @@
 import math
 from operator import mul
 from functools import reduce
+from funcy import ilen, any
 
 
 def odd(n):
@@ -55,7 +56,8 @@ def totient(n):
 def find_one_strict_factor(n):
     if n % 2 == 0:
         return True
-    return any((n % i) == 0 for i in range(3, int(math.sqrt(n)) + 1, 2))
+    divises_n = lambda i : n % i == 0
+    return any(divises_n, range(3, int(math.sqrt(n)) + 1, 2))
 
 
 def is_prime(n):
@@ -68,7 +70,7 @@ def is_prime(n):
 
 def count_primes(n):
     nbPrimes = 1 if n >= 2 else 0
-    return nbPrimes + sum(1 for i in range(3, n, 2) if is_prime(i))
+    return nbPrimes + ilen(filter(is_prime, range(3, n, 2)))
 
 
 def prime_factors(n):
@@ -99,7 +101,7 @@ if __name__ == "__main__":
         fac = prime_factors(i)
         count_fac = rle(fac)
         # ex: 96 = 2*5 *3  2  can be 0 times to 5 times : 6 possib  3 can be 0 or 1 so 2 possib 6 * 2 = 18 possib : 18 factors
-        nb_pos_fac = product([count + 1 for count, n in count_fac])
+        nb_pos_fac = product(count + 1 for count, n in count_fac)
         print(i)
         assert len(positive_factors(i)) == nb_pos_fac
         print(i, fac, positive_factors(i))
