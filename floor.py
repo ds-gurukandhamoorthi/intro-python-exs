@@ -1,18 +1,19 @@
 from itertools import takewhile, combinations, starmap
 from collections import Counter
 from array_utils import aperture
+from funcy import ilen
 
 
 def floor(sorted_array, elem):
     def lt(x):
         return x < elem
-    return len(list(takewhile(lt, sorted_array))) - 1
+    return ilen(takewhile(lt, sorted_array)) - 1
 
 
 def ceiling(sorted_array, elem):
     def le(x):
         return x <= elem
-    return len(list(takewhile(le, sorted_array)))
+    return ilen(takewhile(le, sorted_array))
 
 
 def bitonic_search_max(array, start=None, end=None):

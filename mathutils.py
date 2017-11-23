@@ -12,7 +12,7 @@ def avg(array):
 
 
 def avg_magnitude(array):
-    return avg(list(map(abs, array)))
+    return avg(map(abs, array))
 
 
 def variance(array):
