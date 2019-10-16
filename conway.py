@@ -54,12 +54,21 @@ def conway(matr):
             res[(i, j)] = about_next_life(matr, (i, j))
     return res
 
+def type_probability(p):
+    str_p = p
+    p = float(p)
+    if 0.0 <= p <= 1.0:
+        return p
+    else:
+        msg = str_p + ' is not a probability (between 0 and 1)'
+        raise argparse.ArgumentTypeError(msg)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Conway''s game of Life')
     parser.add_argument('n', type=int, help='number of rows')
     parser.add_argument('m', type=int, help='number of columns')
-    parser.add_argument('p', type=float, help='probability of life at start')
+    parser.add_argument('p', type=type_probability, help='probability of life at start')
     parser.add_argument('--nb-steps', type=int, help='number of generations')
     args = parser.parse_args()
     n = args.n
